@@ -18,7 +18,7 @@ https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5
 Zonas verdes y parques:
 https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=559b401daf436610VgnVCM1000001d4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default&millis=1712731661463
 
-----------------------------
+---
 
 RECUPERADO EN NOVIEMBRE 2024:
 
