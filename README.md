@@ -1,3 +1,5 @@
+# 🚧 - - - - - - - - - **PROYECTO EN CONSTRUCCIÓN** - - - - - - - - - 🚧
+
 # 🏢 🏠 **PREDICCIÓN DE PRECIOS DE LA VIVIENDA EN MADRID**  
 
 Este proyecto se desarrolla como parte del **Trabajo Final de Máster** del programa **Máster en Data Science & AI** de **Nuclio Digital School**. Los integrantes del grupo de trabajo son: **Silvia González, Gilberto Sosa y Alejandra Vaquero**.  
@@ -46,4 +48,19 @@ En este contexto, el presente estudio tiene como objetivo desarrollar modelos pr
 
 Este proyecto no solo busca desarrollar un modelo de predicción de precios de viviendas con alta precisión, sino también extraer conocimiento valioso sobre los factores que determinan la evolución del mercado inmobiliario en Madrid. El uso de técnicas de ciencia de datos permitirá obtener una visión más clara y estructurada del sector, facilitando la toma de decisiones tanto para inversores, compradores como para instituciones reguladoras.  
 
----
+---  
+
+## 📂 **Estructura del repositorio**
+
+### Code:
+- `preprocesamiento-de-datos`:  
+  - `datos-adicionales`: 
+  - `datos-pisos`: 
+
+### Datasets:
+- `preprocesamiento-de-datos`: 
+  - `datos-adicionales`: 
+  - `datos-pisos`: 
+
+### Docs:
+- `imagenes`: 
