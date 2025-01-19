@@ -1,6 +1,6 @@
-# 🚧 - - - - - - - - - **PROYECTO EN CONSTRUCCIÓN** - - - - - - - - - 🚧
+# 🚧 - - - **PROYECTO EN CONSTRUCCIÓN** - - - 🚧
 
-# 🏢 🏠 **PREDICCIÓN DE PRECIOS DE LA VIVIENDA EN MADRID**  
+# 🏢 🏠 **Predicción de precios de la vivienda en Madrid**  
 
 Este proyecto se desarrolla como parte del **Trabajo Final de Máster** del programa **Máster en Data Science & AI** de **Nuclio Digital School**. Los integrantes del grupo de trabajo son: **Silvia González, Gilberto Sosa y Alejandra Vaquero**.  
 
