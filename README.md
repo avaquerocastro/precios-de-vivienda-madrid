@@ -4,15 +4,19 @@
 
 Este proyecto se desarrolla como parte del **Trabajo Final de Máster** del programa **Máster en Data Science & AI** de **Nuclio Digital School**. Los integrantes del grupo de trabajo son: **Silvia González, Gilberto Sosa y Alejandra Vaquero**.  
 
-### **Contexto y Motivación**  
+---
+
+## 💼 **Introducción**  
 
 La problemática de la vivienda en España, y en particular en Madrid, es un tema de gran relevancia socioeconómica y de intenso debate en la actualidad. El acceso a la vivienda, la volatilidad del mercado inmobiliario y la influencia de factores macroeconómicos han generado la necesidad de herramientas analíticas que permitan comprender y predecir la evolución de los precios en este sector.  
 
 En este contexto, el presente estudio tiene como objetivo desarrollar modelos predictivos de precios de vivienda en Madrid capital, aprovechando técnicas avanzadas de análisis de datos y aprendizaje automático (*Machine Learning*). Para ello, se cuenta con un **conjunto de datos de 10,528 viviendas**, cada una caracterizada por **60 variables**, que incluyen atributos estructurales, ubicación, superficies, número de habitaciones, precios históricos, entre otros factores clave.  
 
+Este proyecto no solo busca desarrollar un modelo de predicción de precios de viviendas con alta precisión, sino también extraer conocimiento valioso sobre los factores que determinan la evolución del mercado inmobiliario en Madrid. El uso de técnicas de ciencia de datos permitirá obtener una visión más clara y estructurada del sector, facilitando la toma de decisiones tanto para inversores, compradores como para instituciones reguladoras.
+
 ---  
 
-## 📊 **Objetivos del Proyecto**  
+## 📊 **Objetivos**  
 
 1. **Análisis Exploratorio de Datos (EDA)**  
    - Identificar patrones y tendencias en el mercado inmobiliario madrileño.  
@@ -42,13 +46,7 @@ En este contexto, el presente estudio tiene como objetivo desarrollar modelos pr
    - Implementar las técnicas y metodologías aprendidas a lo largo del Máster en *Data Science & AI*, integrando análisis estadístico, programación en Python, modelado predictivo y optimización de modelos.  
    - Fomentar una aproximación práctica y aplicada al problema, utilizando herramientas y librerías de ciencia de datos como *pandas, scikit-learn, XGBoost, TensorFlow* y *Matplotlib/Seaborn* para visualización de datos.  
 
----  
-
-### **Conclusión**  
-
-Este proyecto no solo busca desarrollar un modelo de predicción de precios de viviendas con alta precisión, sino también extraer conocimiento valioso sobre los factores que determinan la evolución del mercado inmobiliario en Madrid. El uso de técnicas de ciencia de datos permitirá obtener una visión más clara y estructurada del sector, facilitando la toma de decisiones tanto para inversores, compradores como para instituciones reguladoras.  
-
----  
+---
 
 ## 📂 **Estructura del repositorio**
 
