@@ -50,15 +50,20 @@ Este proyecto no solo busca desarrollar un modelo de predicción de precios de v
 
 ## 📂 **Estructura del repositorio**
 
-### Code:
-- `preprocesamiento-de-datos`:  
-  - `datos-adicionales`: 
-  - `datos-pisos`: 
+### 🖥️ Code: esta carpeta contiene todos los `Notebooks` utilizados
+- `preprocesamiento-de-datos`: limpieza, transformación y preparación de los datos.
+  - `datos-pisos`: extracción, limpieza y normalización de los datos de viviendas en Madrid.
+  - `datos-adicionales`: datos complementarios, como información geográfica, indicadores económicos y variables externas relevantes.
+- `modelado`: contiene los Notebooks utilizados para la construcción y entrenamiento de modelos de predicción.
+- `prediccion`: modelos probados con distintas métricas de evaluación y los resultados.
 
-### Datasets:
-- `preprocesamiento-de-datos`: 
-  - `datos-adicionales`: 
-  - `datos-pisos`: 
+### 📈 Datasets: contiene todos los archivos `.csv` y `.xlsx` de datos utilizados y creados en el proyecto.
+- `preprocesamiento-de-datos`: contiene las versiones originales y procesadas de los datos antes del modelado.
+  - `datos-pisos`: datos brutos sobre viviendas en Madrid.
+  - `datos-adicionales`: datos externos complementarios.
+- `modelado`: contiene datasets transformados y preparados para entrenar los modelos.
+- `prediccion`: datos utilizados para evaluar el desempeño final del modelo y generar predicciones.
 
-### Docs:
-- `imagenes`: 
+### 📄 Docs: contiene la documentación del proyecto y otros recursos auxiliares.
+- `el-proyecto`: documentos explicativos sobre el objetivo del proyecto, metodología utilizada y hallazgos clave.
+- `imagenes`: gráficos, diagramas y otras representaciones visuales del análisis.
