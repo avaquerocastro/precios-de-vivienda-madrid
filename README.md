@@ -52,7 +52,7 @@ Este proyecto no solo busca desarrollar un modelo de predicción de precios de v
 - `preprocesamiento-de-datos`: incluye las versiones originales y procesadas de los datos antes del modelado. Aquí se realizan acciones de limpieza, transformación y preparación de los datos.
   - `datos-pisos`: contiene los datos brutos sobre viviendas en Madrid, junto con los Notebooks utilizados para su extracción, limpieza y normalización.
   - `datos-adicionales`: incluye información complementaria, como datos geográficos, indicadores económicos y otras variables externas relevantes.
-- `02-EDA-y-feature-engineering`: contiene análisis exploratorio de datos (EDA) y la selección/creación de características relevantes para el modelado.
+- `EDA-y-feature-engineering`: contiene análisis exploratorio de datos (EDA) y la selección/creación de características relevantes para el modelado.
 - `clustering`: incluye experimentos y resultados de técnicas de agrupamiento para segmentación de datos.
 - `modelado`: almacena los Notebooks y datasets utilizados en la construcción, entrenamiento y ajuste de modelos de predicción.
 - `prediccion`: contiene los modelos finales evaluados, los resultados obtenidos y los datos utilizados para generar predicciones.
