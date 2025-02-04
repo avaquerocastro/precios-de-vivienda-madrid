@@ -48,14 +48,14 @@ Este proyecto no solo busca desarrollar un modelo de predicción de precios de v
 
 ## 📂 **Estructura del repositorio**
 
-### 📈 `código`: esta carpeta contiene todos los `Notebooks` y los archivos `.csv` y `.xlsx` de datos utilizados y creados en el proyecto.
-- `preprocesamiento-de-datos`: contiene las versiones originales y procesadas de los datos antes del modelado, con acciones de limpieza, transformación y preparación de los datos.
-  - `datos-pisos`: datos brutos sobre viviendas en Madrid y Notebooks de extracción, limpieza y normalización de los datos.
-  - `datos-adicionales`: datos complementarios, como información geográfica, indicadores económicos y variables externas relevantes.
-- `02-EDA-y-feature-engineering`:
-- `clustering`: 
-- `modelado`: contiene los Notebooks y datasets utilizados para la construcción y entrenamiento de modelos de predicción.
-- `prediccion`: datos utilizados y modelos para evaluar el desempeño final del modelo y generar predicciones.
+### 📈 `código`: esta carpeta contiene todos los `Notebooks` y los archivos `.csv` y `.xlsx` de datos utilizados y generados en el proyecto.
+- `preprocesamiento-de-datos`: incluye las versiones originales y procesadas de los datos antes del modelado. Aquí se realizan acciones de limpieza, transformación y preparación de los datos.
+  - `datos-pisos`: contiene los datos brutos sobre viviendas en Madrid, junto con los Notebooks utilizados para su extracción, limpieza y normalización.
+  - `datos-adicionales`: incluye información complementaria, como datos geográficos, indicadores económicos y otras variables externas relevantes.
+- `02-EDA-y-feature-engineering`: contiene análisis exploratorio de datos (EDA) y la selección/creación de características relevantes para el modelado.
+- `clustering`: incluye experimentos y resultados de técnicas de agrupamiento para segmentación de datos.
+- `modelado`: almacena los Notebooks y datasets utilizados en la construcción, entrenamiento y ajuste de modelos de predicción.
+- `prediccion`: contiene los modelos finales evaluados, los resultados obtenidos y los datos utilizados para generar predicciones.
 
 ### 📄 `docs`: contiene la documentación del proyecto y otros recursos auxiliares.
 - `el-proyecto`: documentos explicativos sobre el objetivo del proyecto, metodología utilizada y hallazgos clave.
