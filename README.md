@@ -25,24 +25,22 @@ Este proyecto no solo busca desarrollar un modelo de predicción de precios de v
    - Analizar la distribución de las variables y su relación con el precio de venta.  
    - Identificar correlaciones entre variables clave para comprender su impacto en la fijación de precios.  
 
-2. **Desarrollo de Modelos Predictivos**  
-   - Implementar modelos de regresión avanzados para la predicción de precios, incluyendo enfoques basados en regresión lineal, árboles de decisión y métodos más sofisticados como *Gradient Boosting Machines* (GBM), *Random Forest* y redes neuronales.  
+2. **Desarrollo y optimización de Modelos Predictivos**  
+   - Implementar modelos de regresión avanzados para la predicción de precios, incluyendo enfoques basados en regresión lineal, árboles de decisión y métodos más sofisticados como *Gradient Boosting Machines* (GBM), *Random Forest* y redes neuronales. 
    - Comparar el rendimiento de diferentes algoritmos mediante métricas como *RMSE* (Root Mean Squared Error), *MAE* (Mean Absolute Error) y *R²* (coeficiente de determinación).  
-
-3. **Optimización de Modelos**  
    - Ajustar hiperparámetros para mejorar la precisión de las predicciones mediante técnicas como búsqueda en malla (*Grid Search*) y búsqueda aleatoria (*Random Search*).  
    - Aplicar validación cruzada (*cross-validation*) para evaluar la generalización de los modelos y evitar el sobreajuste (*overfitting*).  
 
-4. **Interpretabilidad del Modelo y Análisis de Variables**  
+3. **Interpretabilidad del Modelo y Análisis de Variables**  
    - Evaluar la importancia de las distintas variables en la predicción de precios mediante técnicas como *SHAP values* y *Feature Importance*.  
    - Identificar qué factores influyen más en la variación de precios y cómo afectan la predicción final.  
    - Proporcionar insights sobre la relación entre características como ubicación, superficie, antigüedad del inmueble y la valoración final del mercado.  
 
-5. **Visualización y Comunicación de Resultados**  
+4. **Visualización y Comunicación de Resultados**  
    - Desarrollar dashboards y visualizaciones gráficas que faciliten la interpretación de los resultados.  
    - Presentar hallazgos clave mediante gráficos de dispersión, mapas de calor y representaciones geoespaciales para evidenciar tendencias en diferentes zonas de Madrid.  
 
-6. **Aplicación de Conocimientos Adquiridos en el Máster**  
+5. **Aplicación de Conocimientos Adquiridos en el Máster**  
    - Implementar las técnicas y metodologías aprendidas a lo largo del Máster en *Data Science & AI*, integrando análisis estadístico, programación en Python, modelado predictivo y optimización de modelos.  
    - Fomentar una aproximación práctica y aplicada al problema, utilizando herramientas y librerías de ciencia de datos como *pandas, scikit-learn, XGBoost, TensorFlow* y *Matplotlib/Seaborn* para visualización de datos.  
 
@@ -50,19 +48,14 @@ Este proyecto no solo busca desarrollar un modelo de predicción de precios de v
 
 ## 📂 **Estructura del repositorio**
 
-### 🖥️ `code`: esta carpeta contiene todos los `Notebooks` utilizados
-- `preprocesamiento-de-datos`: limpieza, transformación y preparación de los datos.
-  - `datos-pisos`: extracción, limpieza y normalización de los datos de viviendas en Madrid.
-  - `datos-adicionales`: datos complementarios, como información geográfica, indicadores económicos y variables externas relevantes.
-- `modelado`: contiene los Notebooks utilizados para la construcción y entrenamiento de modelos de predicción.
-- `prediccion`: modelos probados con distintas métricas de evaluación y los resultados.
-
-### 📈 `datasets`: contiene todos los archivos `.csv` y `.xlsx` de datos utilizados y creados en el proyecto.
-- `preprocesamiento-de-datos`: contiene las versiones originales y procesadas de los datos antes del modelado.
-  - `datos-pisos`: datos brutos sobre viviendas en Madrid.
-  - `datos-adicionales`: datos externos complementarios.
-- `modelado`: contiene datasets transformados y preparados para entrenar los modelos.
-- `prediccion`: datos utilizados para evaluar el desempeño final del modelo y generar predicciones.
+### 📈 `código`: esta carpeta contiene todos los `Notebooks` y los archivos `.csv` y `.xlsx` de datos utilizados y generados en el proyecto.
+- `preprocesamiento-de-datos`: incluye las versiones originales y procesadas de los datos antes del modelado. Aquí se realizan acciones de limpieza, transformación y preparación de los datos.
+  - `datos-pisos`: contiene los datos brutos sobre viviendas en Madrid, junto con los Notebooks utilizados para su extracción, limpieza y normalización.
+  - `datos-adicionales`: incluye información complementaria, como datos geográficos, indicadores económicos y otras variables externas relevantes.
+- `EDA-y-feature-engineering`: contiene análisis exploratorio de datos (EDA) y la selección/creación de características relevantes para el modelado.
+- `clustering`: incluye experimentos y resultados de técnicas de agrupamiento para segmentación de datos.
+- `modelado`: almacena los Notebooks y datasets utilizados en la construcción, entrenamiento y ajuste de modelos de predicción.
+- `prediccion`: contiene los modelos finales evaluados, los resultados obtenidos y los datos utilizados para generar predicciones.
 
 ### 📄 `docs`: contiene la documentación del proyecto y otros recursos auxiliares.
 - `el-proyecto`: documentos explicativos sobre el objetivo del proyecto, metodología utilizada y hallazgos clave.
