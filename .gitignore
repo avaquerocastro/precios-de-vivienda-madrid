@@ -169,3 +169,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+codigo/01-preprocesamiento-de-datos/03-Union_datos_webs/redpiso2.ipynb
+codigo/01-preprocesamiento-de-datos/Revision_columnas/Revision_Columnas - copia.ipynb
