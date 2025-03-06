@@ -1,9 +1,0 @@
-hdbscan
-openai
-pandas
-numpy
-python-dotenv
-tiktoken
-notebook
-plotly
-umap-learn
