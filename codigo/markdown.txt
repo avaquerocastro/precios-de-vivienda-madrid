@@ -1,0 +1,997 @@
+[18:50:07] ![Nuclio logo](https://nuclio.school/wp-content/uploads/2018/12/nucleoDS-newBlack.png)
+[18:50:07] 
+[18:50:07] # TFM - Análisis Exploratorio de Datos (EDA)
+[18:50:07] 
+[18:50:07] ### *Descripción del dataset y su contexto:*
+[18:50:07] El presente dataset contiene información detallada sobre propiedades en venta, incluyendo su precio, ubicación, dimensiones y diversas características adicionales. Cada registro representa un anuncio de un inmueble y cuenta con datos sobre su barrio, distrito, consumo energético y otros atributos socioeconómicos.
+[18:50:07] 
+[18:50:07] El objetivo de este Notebook es analizar el conjunto de datos para extraer insights que permitan comprender mejor el mercado inmobiliario en Madrid y detectar patrones que puedan ser útiles para la toma de decisiones.
+[18:50:07] 
+[18:50:07] ### *Objetivos del EDA:*
+[18:50:07] 1. Comprender la estructura del dataset: Identificar el número de registros y columnas, los tipos de datos y la presencia de valores nulos o inconsistencias.
+[18:50:07] 2. Analizar la distribución de las variables: Explorar la variabilidad en precios, metros cuadrados, ubicaciones y otras características relevantes.
+[18:50:07] 3. Detectar relaciones y correlaciones: Investigar posibles asociaciones entre las variables y su impacto en el precio de los inmuebles.
+[18:50:07] 4. Identificar valores atípicos: Detectar posibles errores o anomalías en los datos que puedan afectar el análisis.
+[18:50:07] 5. Generar insights clave: Extraer información relevante para futuros estudios o modelos de predicción del valor de los inmuebles.
+[18:50:07] 
+[18:50:07] Este análisis servirá como base para entender mejor la dinámica entre las variables y obtener un fichero CSV para ejecutar un modelo predictivo del precio de las vviendas en Madrid.
+[18:50:07] # *1. Librerías y configuración*
+[18:50:07] # *2. Funciones*
+[18:50:07] # *3. Carga de datos*
+[18:50:07] Carga del fichero con las caracteristicas de los pisos
+[18:50:07] Carga del fichero con las caracteristicas adicionales que se van a añadir al modelo
+[18:50:07] # *4. Exploración de datos*
+[18:50:07] En esta primera tabla, ya vemos variables con desviación tipica 0, (tiene_armario,inmuebles_ingresos,alquiler_con_opcion_compra) por lo que podremos eliminar esas columnas que no aportan información al estudio.
+[18:50:07] ## *4.1 Tipo de datos*
+[18:50:07] ### *4.1.1 Transformación del tipo de variables*
+[18:50:07] Vamos a cambiar el tipo de dato de las siguientes columnas
+[18:50:07] ## *4.2 Identificacion de valores nulos*
+[18:50:07] Los valores nulos pueden afectar los análisis estadísticos y las visualizaciones.
+[18:50:07] 
+[18:50:07] Antes de tomar decisiones sobre cómo gestionar los valores nulos, tenemos que evaluar cuántos datos faltan y en qué proporción dentro del conjunto de datos.
+[18:50:07] 
+[18:50:07] Tenemos que entender por qué faltan los datos.
+[18:50:07] 
+[18:50:07] En este conjunto de datos, tomados mediante la técnica de web scraping, tendremos valores nulos fundamentalmente por tres motivos y siempre de manera aleatoria:
+[18:50:07]   - El proceso de scraping no ha tomado todos los valores de cada vivienda publicada en la web.
+[18:50:07]   - La web no informaba del dato porque no lo consideró necesario (p. ej., carpinterías).
+[18:50:07]   - La web no informaba del dato porque la vivienda tenía ausencia de ello (p. ej., piscina).
+[18:50:07] 
+[18:50:07] Los datos faltantes pueden ser:
+[18:50:07]   - Aleatorios, sin depender de otras variables.
+[18:50:07]   - Relacionados con otras variables observadas.
+[18:50:07]   - Los datos faltan debido a factores relacionados con los valores en sí mismos, lo que puede introducir sesgos.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Al tratar los valores nulos tenemos que evitar introducir sesgos que puedan alterar la interpretación de los datos. Si, por ejemplo, los datos faltantes están asociados con patrones específicos, tratarlos incorrectamente podría distorsionar los resultados.
+[18:50:07] 
+[18:50:07] Para tratarlos, revisaremos:
+[18:50:07] - La cantidad de valores nulos por columna.
+[18:50:07] - El porcentaje de valores nulos en relación con el total de datos.
+[18:50:07] - Identificación y eliminación de columnas con más del 90% de valores nulos
+[18:50:07] - Visualización de los valores nulos para identificar patrones.
+[18:50:07] 
+[18:50:07] Representación grafica de los valores nulos
+[18:50:07] *El análisis de valores nulos nos permite detectar qué columnas requieren tratamiento antes de continuar con el análisis exploratorio. Realizaremos la imputación de esos nulos en variables importantes como dormitorios y baño y evaluar la eliminación de aquellas con un alto porcentaje de valores faltantes si no aportan información significativa al estudio.*
+[18:50:07] 
+[18:50:07] Observaciones:
+[18:50:07] - Se identifican múltiples columnas con una gran cantidad de valores nulos p.e. "alquiler-opcion_a_compra" ó "acceso_discapacidad" (representadas en azul oscuro).
+[18:50:07] - Algunas columnas tienen valores ausentes de manera dispersa, como puede ser "letra_ce", mientras que otras presentan grandes bloques de datos faltantes ("videoportero").
+[18:50:07] - Hay varias variables con una cantidad significativa de valores faltantes, especialmente aquellas relacionadas con características del inmueble, carpintería, eficiencia energética,etc
+[18:50:07] - La variable target `precio` asi como las variables de ubicación `distrito` y `barrio` no tienen valores nulos.
+[18:50:07] Vamos a eliminare columnas con mas del 95% de valores nulos ya que aportan muy poca información y manterlas aumenta la complejidad sin ofrecer beneficios.
+[18:50:07] Las siguientes columnas presentan un alto porcentaje de valores nulos:
+[18:50:07] 
+[18:50:07] - **`inmueble_ingresos`**: 99.91% de los valores son nulos.
+[18:50:07] - **`alquiler_opcion_a_compra`**: 99.97% de los valores son nulos.
+[18:50:07] - **`nuda_propiedad`**: 99.87% de los valores son nulos.
+[18:50:07] 
+[18:50:07] Estas columnas se refieren a viviendas con características específicas de transacción:
+[18:50:07] - **`alquiler_opcion_a_compra`**:viviendas en alquiler con opción a compra según contrato.
+[18:50:07] - **`inmueble_ingresos`**: Representa viviendas alquiladas que generan ingresos.
+[18:50:07] - **`nuda_propiedad`**: Corresponde a viviendas donde no se tiene la posesión plena (por ejemplo, derechos limitados sobre la propiedad).
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Debido al bajo tamaño de muestra para estas categorías, he decidido eliminar este tipo de viviendas del análisis. El modelo se construirá exclusivamente para viviendas de venta libre de cargas, lo que permitirá obtener resultados más representativos y útiles.
+[18:50:07] Elimino las columnas con más de 95% de valores nulos
+[18:50:07] ## *4.3 Identificación variables con varianza nula*
+[18:50:07] ## *4.4 Identificación de datos duplicados*
+[18:50:07] Identificamos si existen registros duplicados ya que pueden distorsionar el análisis y deben ser detectados para eliminarlos.
+[18:50:07] * Analizaremos si es posible que tengamos el mismo piso en venta en distintas webs, para ello identificamos como primary key la combinación de esas columnas 
+[18:50:07] 
+[18:50:07] ['cod_barrio', 'cod_distrito','codigo_postal','m2_constr', 'dormitorios', 'banos', 'precio','estado','planta']
+[18:50:07] #ahora los duplicados que tengo son de mas de dos registros
+[18:50:07] #comparemos las webs por que duplicados de la misma web no son duplicados
+[18:50:07] En Obra nueva es facil tener duplicados por que puede haber varias viviendas con las mismas caracterisicas de localización ,m2, precio, etc. En segunda mano suponemos que se ha publicado la misma vivienda en diferentes webs.
+[18:50:07] # *5. Variable `target`*
+[18:50:07] La variable target del analisis es la columna `precio`.
+[18:50:07] 
+[18:50:07] La columna precio es de tipo int64, la transformamos a float64, ya que el precio de venta de las viviendas es la variable objetivo en nuestro análisis y el tipo de dato float64 es adecuado para manejar valores de precio con precisión decimal.
+[18:50:07] Hay 9869 datos disponibles, es una muestra razonablemente grande y representativa.
+[18:50:07] El precio promedio es de 887513,3 , esta métrica podría estar influenciada por valores atípicos debido a los precios extremadamente altos.
+[18:50:07] La desviación estándar es bastante elevada 1149722,65, lo que indica una gran variabilidad en los precios.
+[18:50:07] 
+[18:50:07] El precio más bajo registrado es 54.000, lo que sugiere que incluye viviendas de bajo costo.
+[18:50:07] El precio más alto es 19.950.000 lo que sugiere la presencia de viviendas de lujo o atípicas.
+[18:50:07] 
+[18:50:07] Hay una fuerte asimetría positiva en la distribución, ya que el valor medio 890.192,68 es mucho mayor que la mediana 475.000. Esto sugiere que unos pocos precios extremadamente altos están influyendo en la media.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ## *5.1 Valores atípicos*
+[18:50:07] Observaciones:
+[18:50:07] 
+[18:50:07] - Se han revisado algunas de las urls de las webs de donde se hizo el *Web Scraping* de los anuncios con precios atipicos y hemos verificado que son correctos.
+[18:50:07] ## *5.2 Distribución*
+[18:50:07] Observaciones:
+[18:50:07] - La distribución está fuertemente sesgada a la derecha ya que la mayoría de los inmuebles tienen precios concentrados en el rango bajo (por debajo de 1 millón de euros, sobre todo en un rango de 200k€ - 400k€). A medida que el precio aumenta, la frecuencia de inmuebles disminuye drásticamente.
+[18:50:07] - Existen algunos inmuebles con precios muy elevados (por encima de 5M€, hasta casi los 20M€),picos pronunciados con colas muy largas, lo que sugiere que hay propiedades de lujo o con precios excepcionalmente altos (outliers) dentro del dataset.
+[18:50:07] - La mayor parte del mercado parece estar en rangos de precios menores al millon de euros pero hay un número reducido de inmuebles en rangos más altos, lo que indica que las viviendas de lujo son menos frecuentes.
+[18:50:07] 
+[18:50:07] La variable `precio` no sigue una distribución normal. Esto podría ser relevante al aplicar técnicas estadísticas que asumen normalidad. Será útil realizar una transformación de datos (como logaritmos) o usar métricas robustas para manejar los valores extremos. 
+[18:50:07] 
+[18:50:07] # *6. Union datos pisos y datos adicionales*
+[18:50:07] Además del web scraping realizado en páginas webs de venta de viviendas, se ha recopilado información adicional, proveniente de diferentes webs, entre ellas los datos abiertos del Ayuntamiento de Madrid. Estos datos han sido organizados en un archivo clasificado por barrios o distritos. Posteriormente, este conjunto de datos se integra con nuestra base de datos de viviendas, con el objetivo de enriquecer el modelo y mejorar su precisión.
+[18:50:07] Algunas columnas de los datos adicionales están informadas a nivel de distrito y otras a nivel de barrio
+[18:50:07] En el conjunto de datos dfadicionales podemos asumir que los valores nulos son 0 por que si no estan informados es que no tienen valor
+[18:50:07] ## *6.1 Merge datos pisos y datos adicionales*
+[18:50:07] En primer lugar seleccionamos las columnas que tienen informados los datos a nivel de barrio
+[18:50:07] Comprobamos el numero de filas y columnas de nuestros dataframes
+[18:50:07] # *7. Análisis estadístico inicial*
+[18:50:07] ## *7.1 Análisis univariado*
+[18:50:07] El análisis univariado nos va a permitir estudiar la distribución de cada variable por separado, identificando patrones, valores atípicos y posibles problemas en los datos.
+[18:50:07] Ejecutamos de nuevo la funcion columnas_por_tipo para cargar las variables con las nuevas columnas incluidas en el  dataframe
+[18:50:07] ### *7.1.1 Variables numéricas*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] En nuestro dataset existen dos tipos de variables cuantitativas:
+[18:50:07] 
+[18:50:07] - **Discretas**: Son aquellas que únicamente pueden tomar un conjunto limitado de valores aislados y separados, generalmente representados como números enteros.
+[18:50:07] - **Continuas**: Son aquellas que pueden asumir cualquier valor dentro de un intervalo o rango específico.
+[18:50:07] 
+[18:50:07] Vamos a analizar las variables númericas mediante histogramas para observar su distribución y boxplots ó graficos de violin para detectar posibles valores atípicos.
+[18:50:07] Observaciones:
+[18:50:07] - A primera vista vemos que tenemos dos tipos de variables númericas, discretas y continuas. Además muchas de las variables discretas son binarias.
+[18:50:07] Variables continuas: precio,m2_constr,etc
+[18:50:07] Variables binarias: variables de orientacion, carpinteria,exterior,...
+[18:50:07] Variables discretas no binarias:dormitorios , banos,..
+[18:50:07] 
+[18:50:07] - En los histogramas (azules) que muestran cómo se distribuyen los valores de cada variable , se  pueden identificar distribuciones sesgadas en algunas variables continuas, con datos concentrados en ciertos rangos. Por ejemplo tanto  `precio` como  `m2_constr`y viv_nuevas_transaciones tienen distribuciones sesgadas a la derecho con acumulacion de valores bajos .
+[18:50:07] - En el caso de las variables binarias tienen solo dos valores posibles (0 o 1), indicando la presencia o ausencia de una característica en el inmueble como es el caso de `balcon`, `terraza`, `trastero`, `ascensor`, `nuda_propiedad`, `acceso_discapacidad`.
+[18:50:07]  Los gráficos de violín (verdes) y los histogramas nos muestran cuáles de estas variables tienen una distribución altamente desbalanceada (p.e interior ó tiene_armario)
+[18:50:07] - Sobre las variables con un solo valor pueden eliminarse del análisis o reemplazar los valores nulos por 0 si se asume que la ausencia del dato significa que la característica no está presente, como por ejemplo  `cancha_tenis`, `tiene_piscina`.
+[18:50:07] - Algunas variables como `num_plantas`, `num_personas`, `total_transacciones`, `lineas_metro`, `hogares`, `servicios_profesionales`, tienen una distribución amplia, lo que sugiere una gran variabilidad en los datos.
+[18:50:07] ### *7.1.2 Variables categóricas*
+[18:50:07] Para las variables categóricas, vamos a utilizar gráficos de barras para realizar el analisis ya que ayudan a visualizar la frecuencia de cada categoría.
+[18:50:07] Observaciones: En varias variables, hay una categoría dominante.
+[18:50:07] - `tipo_fachada`: Tiene una variedad de materiales, pero "Ladrillo" es el más común, lo que puede reflejar tendencias constructivas predominantes en la región.
+[18:50:07] - `tipo_calefaccion`: La mayoría de los inmuebles no tienen calefacción o no se ha especificado.
+[18:50:07] - `tipologia`: Nos indica que existen mucho más ofertas de "pisos" que de otra tipología de vivienda.
+[18:50:07] - `tipo_inmueble`: La categoría "lujo" tiene una mayor representación en comparación con otras categorías como "económico" o "medio". Hay que verificar si es por presencia de nulos en las observaciones de la mayoría de los inmuebles.
+[18:50:07] - `estado`: Presenta una mayor cantidad de registros en "En buen estado" y "Buena/muy buena calidad", indicando que la mayoría de los inmuebles ofertados están en condiciones óptimas.
+[18:50:07] - `letra_ce`: Muestra que muchos inmuebles tienen clasificaciones energéticas bajas (E, G, D), lo que puede ser un factor importante para compradores interesados en eficiencia.
+[18:50:07] - Existen categorias con muchos valores diferentes que se pueden agrupar para realizar el analisis, p.e. antiguedad ó estado.
+[18:50:07] ## *7.2 Análisis bivariado*
+[18:50:07] El análisis bivariado nos permite estudiar la relación entre dos variables, ya sean numéricas o categóricas.
+[18:50:07] ### *7.2.1 Variables numéricas*
+[18:50:07] 
+[18:50:07] #### *7.2.1.1 Pairplots*
+[18:50:07] Utilizaremos *Pairplots* para ver la relación entre nuestra target `precio` y algunas de las variables numéricas más relevantes identificadas después de la exploración del análisis univariado.
+[18:50:07] Observaciones:
+[18:50:07] - `precio` vs. `m2_constr`: Hay una correlación positiva, a medida que aumenta el tamaño construido (metros cuadrados), el precio tiende a incrementarse. La dispersión muestra una nube de puntos con una tendencia ascendente.
+[18:50:07] - `precio` vs. `dormitorios`: Al igual que en las variables de metros construidos, el precio aparenta tener una tendencia ascendente.Aunque se ven algunos valores atipicos que tendremos que analizar.
+[18:50:07] - `precio` vs. `cod_barrio`: La relación entre precio y código de barrio es menos clara. Es probable que el gráfico refleje precios variados dentro de cada barrio, y que el barrio afecte, pero de manera categórica. Será necesario analizar la comparación de medias por barrio.
+[18:50:07] - `precio` vs. `banos`: La mayoría de los datos están agrupados en la parte inferior izquierda del gráfico. Muchas viviendas tienen precios bajos y cuentan con un número reducido de baños.Es posible que haya una ligera correlación entre el número de baños y el precio de la vivienda. A medida que aumenta el número de baños ,aumente el precio de la vivienda.Hay un par de puntos alejados del grupo principal. Por ejemplo, un punto representa una vivienda con un precio muy alto pero con un número reducido de baños. Esto podría ser un error en los datos o una vivienda especial.
+[18:50:07] - `precio` vs.`viv_nuevas_transacciones`: Podemos ver una concentracion de transaciones d precios bajos en la esquina inferior izquierda.
+[18:50:07] -  `precio` vs. `renta neta media por hogar`. Muchos de los datos están concentrados en la esquina inferior izquierda del gráfico. Esto sugiere que la mayoría de las viviendas tienen precios bajos y están asociadas con hogares de renta media más baja. Aunque podemos ver algunos casos donde el precio de las viviendas o la renta media varía significativamente (posibles valores atípicos).
+[18:50:07] #### *7.2.1.2 Matriz de correlación y heatmap*
+[18:50:07] Utilizamos la matriz de correlación para  identificar relaciones entre variables numéricas.
+[18:50:07] El mapa de calor nos sirve para conocer las variables y sus relaciones.
+[18:50:07] A primera vista vemos que alguna variable'inmuebles_ingresos ó cancha_tenis que son lineas completamente blancas , lo que parece indicar ausencia de datos.
+[18:50:07] Tambien se puede observar que hay algunas variables muy correladas entre ellas.
+[18:50:07] Vamos a estudiar de que varibles se trata.
+[18:50:07] Podemos observar que tenemos muchas variables con una correlación significativa, es tan fuerte que podría indicar multicolinealidad, es decir, que básicamente ofrecen la misma información.
+[18:50:07] Mostramos la correlación de la variable 'target' con las demás variables numéricas
+[18:50:07] Observaciones:
+[18:50:07] - Se puede apreciar una fuerte correlación entre la variable *target* `precio` con: `m2_utiles`, `m2_constr`, y `banos`.
+[18:50:07] - Existe una correlación más baja pero igualmente importante con: `cod_distrito`,`dormitorios`, `renta neta media por persona`, `renta_bruta_media_por_hogar`, `mediana de la renta por unidad de consumo`, `renta bruta media por persona`, `renta bruta media por hogar`, `salud_bienestar_educacion`, `servicios_profesionales`, y `lineas_metro`.
+[18:50:07] - Hay una correlación más baja con: `Nuda propiedad`, `codigo_postal`, `hog_con_7`, `hog_con_8`, `hog_con_9`, y `hog_con_10`, `hog_con_11`.
+[18:50:07] #### *7.2.1.3 Histogramas y distribución de variables numéricas* 
+[18:50:07] Seleccionamos un subconjunto de variables numéricas para hacer el estudio ya que identificamos que tienen alta correlación con la variable target 'precio'.
+[18:50:07] Observaciones:
+[18:50:07] - En los histogramas, las variables m2_constr,dormitorios,baños, presentan una distribución sesgada a la derecha. Esto significa que la mayoría de los valores están concentrados en el rango bajo, mientras que hay algunas propiedades con valores extremadamente altos.
+[18:50:07] - En los boxplots, los valores extremos o *outliers* son muy evidentes, especialmente en variables como `m2_constr` .
+[18:50:07] - Existe una relación clara entre los metros cuadrados y el precio, donde a mayor tamaño del inmueble, mayor suele ser el precio. Sin embargo, la dispersión es alta, lo que indica que no siempre un inmueble más grande es más caro, probablemente debido a la ubicación o características adicionales. Los boxplots muestran una gran cantidad de valores atípicos, lo que sugiere que existen propiedades que, aún con tamaños pequeños, tienen precios extremadamente altos. Esto podría deberse a factores como la ubicación premium o características de lujo.
+[18:50:07] - Se observa una tendencia donde los inmuebles con más dormitorios y baños tienen un precio más alto. Sin embargo, el boxplot muestra que hay valores extremos, donde algunas viviendas con pocos dormitorios y baños tienen precios elevados, lo que podría ser indicativo de la ubicación de estas viviendas.
+[18:50:07] - Se evidencian diferencias significativas en los precios dependiendo del distrito o barrio. Los distritos más exclusivos tienen un precio significativamente más alto, mientras que en otras zonas el precio es más accesible. El boxplot muestra una gran dispersión en algunos distritos, lo que sugiere una combinación de propiedades de alto y bajo costo dentro del mismo distrito.
+[18:50:07] - Existe una correlación positiva entre la renta media del hogar y el precio del inmueble: las zonas con mayores ingresos tienden a tener propiedades más caras. El boxplot muestra una variabilidad considerable, lo que sugiere que aunque la renta media sea alta, hay excepciones con propiedades accesibles dentro de esas áreas.
+[18:50:07] - En cuanto al numero de personas podemos observar que haymas personas en los distritos con las viviedas mas baratas.
+[18:50:07] - No parece haber una relación lineal clara entre el número de líneas de metro cercanas y el precio del inmueble. En el boxplot, se observa una dispersión importante, lo que indica que la cercanía a múltiples líneas de metro no es un factor determinante del precio por sí solo, pero podría influir dependiendo de la zona.
+[18:50:07] ### *7.2.2 Variables categóricas*
+[18:50:07] Analizamos la relación de la variable target `precio` con las variables categóricas.
+[18:50:07] Generamos barplots con la media y mediana de la variable a analizar (precio)  frente a varias categóricas.
+[18:50:07] Observaciones:
+[18:50:07] - Se observan diferencias significativas en el precio promedio en función de distintas variables categóricas. 
+[18:50:07] - Se identifican algunas categorías en variables como `tipo_inmueble`, `distrito`, `barrio`, `estado` y `tipologia` que presentan precios significativamente más altos o bajos.
+[18:50:07] - En las variables `distrito`, se evidencian diferencias claras en el precio medio entre distintas zonas, lo que indica que la ubicación es un factor determinante en el valor de los inmuebles.
+[18:50:07] - En algunos gráficos, los intervalos de confianza son amplios, lo que indica que existe una gran dispersión en los precios dentro de ciertas categorías. Algunas variables como `energía_calefaccion`, `letra_ce` o `tipo_suelo` parecen tener un impacto menos significativo en el precio, ya que las diferencias entre categorías son menores.
+[18:50:07] 
+[18:50:07] Conclusión:
+[18:50:07] - Identificar las variables categóricas más influyentes: Variables como `tipo_inmueble`, `distrito`, `barrio`, `estado` y `tipologia` deben ser consideradas en cualquier análisis predictivo, ya que tienen un alto impacto en el precio.
+[18:50:07] - Reducir la cantidad de categorías poco representadas: Algunas categorías tienen muy pocos registros y podrían agruparse en una categoría más general para mejorar la interpretación de los datos.
+[18:50:07] - Analizar la interacción entre variables: Analizaremos si ciertas combinaciones de categorías influyen aún más en el precio, por ejemplo, la tipologia de un inmueble dentro de un distrito específico.
+[18:50:07] - Considerar la eliminación o transformación de variables menos relevantes: Si algunas variables categóricas no tienen una variación significativa en los precios, podrían descartarse en análisis posteriores.
+[18:50:07] #### *7.2.3 Combinación de variables categoricas vs precio*
+[18:50:07] 
+[18:50:07] ##### Distrito y m2_contr vs precio
+[18:50:07] Se observa que las viviendas tienden a ser más amplias dependiendo del distrito, y también presentan precios más elevados. Sin embargo, el distrito con el precio medio más alto es Salamanca, pero este no coincide con las viviendas de mayor tamaño en términos de metros cuadrados construidos. Esto indica que en Salamanca, el alto precio podría estar más relacionado con factores como la ubicación, o demanda, más que con el tamaño de las viviendas.
+[18:50:07] ##### Dormitorios+baños con respecto distrito y el precio
+[18:50:07] Para analizar la relación entre el número de dormitorios y baños, su ubicación y el precio, vamos a generar una gráfica de calor que muestra el precio promedio de las viviendas (en miles de euros) en función de la suma de dormitorios y baños (eje X) y la ubicación (eje Y, que representa los diferentes distritos). 
+[18:50:07] El color azul representa precios más bajos y el rojo precios más altos.
+[18:50:07] 
+[18:50:07] A medida que aumenta la cantidad de dormitorios y baños, los precios tienden a ser más elevados.Sin embargo, este  patrón no es uniforme en todos los distritos, lo que indica que otros factores como la ubicación específica tienen un impacto significativo.
+[18:50:07] Algunos distritos presentan precios elevados incluso para viviendas más pequeñas, lo que sugiere que la ubicación puede ser el principal determinante del precio en esos casos (por ejemplo, distritos exclusivos como Salamanca).
+[18:50:07] 
+[18:50:07] En otros distritos, los precios parecen estar más relacionados con el tamaño de la vivienda.
+[18:50:07] Los distritos más asequibles tienen predominio de colores azulados incluso para viviendas más grandes.
+[18:50:07] Análisis de valores atípicos:
+[18:50:07] 
+[18:50:07] Puede haber distritos donde viviendas más grandes no correspondan proporcionalmente a precios más altos, lo cual podría indicar factores externos como demanda, nivel socioeconómico o antigüedad de las propiedades
+[18:50:07] # *8. Generación de un fichero para el desarrollo de un modelo inicial baseline*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Vamos a generar un primer modelo baseline con los datos en bruto.
+[18:50:07] # *9. Limpieza y procesamiento de datos*
+[18:50:07] Dependiendo de la cantidad de valores nulos y duplicados detectados, se pueden tomar las siguientes acciones:
+[18:50:07] - Eliminar registros duplicados si no aportan valor al análisis.
+[18:50:07] - Gestionar valores faltantes:
+[18:50:07]     Aquellos valores nulos que se imputarán a un valor fijo ("Desconcido" en categoricas, 0 en númericas) se realizaran en este capitulo.
+[18:50:07]     La imputación de nulos que conlleve la utilización de estadisticos, ya sea la moda,la mediana o la media del conjunto de datos, se realizará la imputación después de dividir entre train,validacion y test. Esto garantizará que la información de los tres conjuntos de datos permanezca independiente.
+[18:50:07]     Si lo realizaramos antes el modelo de entrenamiento podría beneficiarse de información del conjunto de validación o test, generando resultados optimistas y poco realistas.Además garantiza que las métricas obtenidas en validación y test sean fiables y representen el rendimiento del modelo en datos desconocidos.
+[18:50:07] 
+[18:50:07] ## *9.1 Variables categóricas: agrupación e imputación de nulos*
+[18:50:07] 
+[18:50:07]  
+[18:50:07] - *Algunas variables categóricas previamente definidas se convertirán en numéricas tras su agrupación, con el objetivo de utilizarlas en el modelo.** Ejemplos de estas variables incluyen `estado` y `letra_ce`.  
+[18:50:07] - *Las variables categóricas que se conserven como tales al finalizar este capítulo tendrán sus valores nulos imputados con "Desconocido".*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Veamos el porcentaje de nulos de cada varaible
+[18:50:07] Revisamos los valores que toma cada variable
+[18:50:07] ### *9.1.1 Distrito y Barrio*
+[18:50:07] La columnas distrito y barrio no tiene valores nulos
+[18:50:07] Observaciones:
+[18:50:07] - No se necesita hacer agrupación.
+[18:50:07] - No se necesita imputar nulos.
+[18:50:07] ### *9.1.2 Estado*
+[18:50:07] Creamos un diccionario de mapeo para agrupar las categorías y posteriormente convertirlas a numéricas:
+[18:50:07] NaN: 0, Para reformar: 1, Buen estado: 2, Perfecto estado: 3, Reformado: 4, Obra nueva: 5
+[18:50:07] Hemos creado un diccionario llamado estado_map para asignar un valor numérico a cada descripción del estado de una vivienda, agrupando términos similares bajo un mismo número, convirtiendo datos categóricos en valores númericos, para que los modelos de análisis pueden manejarlos fácilmente.
+[18:50:07] Los valores asignados siguen una escala jerárquica: desde 0 valores faltantes, 1 para viviendas en mal estado (por ejemplo, "a reformar"), hasta 5 para viviendas nuevas o en perfecto estado. Esta transformación simplifica el análisis y añade consistencia a la información del dataset. 
+[18:50:07] ### *9.2.3 Antigüedad*
+[18:50:07] Se agrupa la columna en 5 categorias :'menos_5','5_10', '10_30','30_50' y 'mas_50'
+[18:50:07] Observaciones:
+[18:50:07] - Se imputarán los nulos con el valor 'Desconocido'.
+[18:50:07] ### *9.2.4 Tipo de suelo* ####################################
+[18:50:07] Se agrupa en las siguientes categorias :
+[18:50:07]          'Madera','Gres','Piedra','Radiante','Baldosa','Otros'
+[18:50:07]   
+[18:50:07] Observaciones:
+[18:50:07] - Se imputarán los nulos con el valor 'Desconocido'.
+[18:50:07] ### *9.2.5 Letra de consumo / Letra emisiones (certificado energético)*
+[18:50:07] Se realiza la siguiente codificación ordinal (ordinal encoding) en la letra de calificacion energetica de consumo y emisiones {"A": 7, "B": 6, "C": 5, "D": 4, "E": 3, "F": 2, "G": 1}
+[18:50:07] Al igual que el estado se han transformado las  variables 'letra_ce' y 'letra_emisiones' a enteras para utilizarla en el modelo
+[18:50:07] ### *9.2.6 Tipología de propiedad*
+[18:50:07] Se realiza una recategorización de las categorias de Tipologia agrupandola en las siguietes categorias: Piso,Atico,  Chalet ,Casa   ,Duplex,Estudio 
+[18:50:07] Esta categorización se realiza teniendo en cuenta la distribucion de precios por tipologia
+[18:50:07] Observaciones:
+[18:50:07] - No se necesita imputar nulos.
+[18:50:07] ### *9.2.7 Calefacción*
+[18:50:07] Tenemos 3 variables asociadas a la calefaccion instalacion_calefaccion,energia_calefaccion y tipo_calefaccion. Además tenemos una columna asociada a la generación del agua caliente de la vivienda. Analizaremos los valores que tiene cada una de ellas.
+[18:50:07] 
+[18:50:07] Observaciones:
+[18:50:07] - Existe poca variabilidad en los datos teniendo una mayoría de valores de 'Radiadores', eliminaremos esta columna.
+[18:50:07] 
+[18:50:07] La columna `calefaccion` y `agua_caliente` se combinan y se dividen en dos nuevas columnas:
+[18:50:07] 
+[18:50:07] 1. **`ins_comunitaria`**: Esta columna indica si el sistema es de calefacción individual o comunitaria.  
+[18:50:07] 2. **`energia`**: Representa el tipo de energía utilizado para generar calefacción y/o agua caliente, clasificado como renovable, eléctrica, gas o gasoil.
+[18:50:07] 
+[18:50:07] Adicionalmente, en la columna `energia`, se asignan valores numéricos del 1 al 4, de acuerdo con el nivel de contaminación y modernidad de la fuente de energía:
+[18:50:07] - **1**: Energía menos contaminante y más actualizada.
+[18:50:07] - **4**: Energía más contaminante y menos eficiente.
+[18:50:07] 
+[18:50:07] y en la columna ins_comunitaria`, se asignan valores numéricos del 0 al 2.
+[18:50:07] 0 desconocido
+[18:50:07] 1 individual
+[18:50:07] 2 comunitario
+[18:50:07] 
+[18:50:07] Este enfoque permite desglosar la información de manera más clara y facilita el análisis del impacto ambiental y la eficiencia de los sistemas energéticos.
+[18:50:07]              
+[18:50:07] Agrupadas las variables Observaciones: 'agua_caliente', 'energia_calefaccion', y 'tipo_calefaccion' ya que se refieren al mismo servicio para el inmueble y de esta manera ayudamos a completar datos faltantes.
+[18:50:07] #Ademas eliminamos la variable instalacion_calefaccion por que tiene muy poca variabilidad
+[18:50:07] ### *9.2.8 Tipo de inmueble*
+[18:50:07] La variable `tipo_inmueble` ha recopilado información basada en los adjetivos presentes en el título del anuncio. Los valores que se identifican son: lujo, económico y señorial.
+[18:50:07] Observaciones:
+[18:50:07] - No se necesita hacer agrupación.
+[18:50:07] - Se imputarán los nulos con el valor 'Desconocido'.
+[18:50:07] ### *9.2.9 Tipo de cocina*
+[18:50:07] La variable `cocina` presentaba una gran diversidad de descripciones asociadas tomadas de campos de texto del anuncio. Para unificar la información, se seleccionaron una serie de palabras clave que permitieron crear una agrupación coherente. Las categorías finales establecidas son las siguientes:
+[18:50:07] 
+[18:50:07] - **No_amueblada**
+[18:50:07] - **Independiente**
+[18:50:07] - **Abierta**
+[18:50:07] - **Isla**
+[18:50:07] - **Amueblada**
+[18:50:07] - **Equipada**
+[18:50:07] - **Reformada**
+[18:50:07] - **Sin_reforma**
+[18:50:07] 
+[18:50:07]    
+[18:50:07] ### *9.2.10 Aire acondicionado*
+[18:50:07] Al igual que la variable `cocina`, la columna `aire_acondicionado` contenía una amplia variedad de descripciones provenientes de campos de texto en los anuncios o de un campo específico que indicaba el tipo de aire acondicionado de la vivienda. En algunos casos, simplemente se informaba si la vivienda disponía o no de aire acondicionado. 
+[18:50:07] 
+[18:50:07] Para unificar esta información, se agruparon los datos en las siguientes categorías: **Normal**, **Eficiente**, **Sin Aire**. Los valores nulos fueron asignados a una nueva categoría denominada **Desconocido**.
+[18:50:07] Observaciones:
+[18:50:07] - No se necesita agrupar.
+[18:50:07] - No se necesita imputar nulos.
+[18:50:07] ### *9.2.12 Piscina*
+[18:50:07] La columna `piscina` presentaba una situación similar a la de `aire_acondicionado`. Dependiendo de la fuente de los datos (webs), algunas describían si la vivienda contaba o no con piscina, mientras que otras incluían información relacionada en campos de texto que también mencionaban otros aspectos de la vivienda. 
+[18:50:07] 
+[18:50:07] La combinación de los diferentes datasets y el tratamiento de los datos resultó en valores variados en esta columna, como:
+[18:50:07] 
+[18:50:07] - `sin piscina`
+[18:50:07] - `1`
+[18:50:07] - `comunitaria`
+[18:50:07] - `1.0`
+[18:50:07] - `propia`
+[18:50:07] - `privada`
+[18:50:07] - `1 propia y 2 comunitaria`
+[18:50:07] - `1 piscina de adultos y 1 piscina de niños`
+[18:50:07] - `con salorium`
+[18:50:07] 
+[18:50:07] Para simplificar y unificar esta información, se agruparon los valores de la siguiente manera:
+[18:50:07] 
+[18:50:07] - **"sin piscina"**: Se asignó el valor `0`.
+[18:50:07] - **"comunitaria"**, **"1.0"**, **"1 piscina de adultos y 1 piscina de niños"**, **"con salorium"**: Se agruparon bajo la categoría `comunitaria` y se les asignó el valor `1`.
+[18:50:07] - **"propia"**, **"privada"**: Se agruparon bajo la categoría `propia` y se les asignó el valor `2`.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### *9.2.13 Planta*
+[18:50:07] En la columna `planta`, se realizó un proceso de transformación para convertir valores en formato de texto (como "primera planta" o "1ª planta") a valores numéricos. Además, se asignaron valores específicos a determinadas categorías para unificar y estandarizar la información:
+[18:50:07] 
+[18:50:07] - **Transformaciones principales**:
+[18:50:07]   - "Entreplanta" se asignó el valor `0.5`.
+[18:50:07]   - "Semisótano" se asignó el valor `-0.5`.
+[18:50:07]   - "Sótano" se asignó el valor `-1`.
+[18:50:07]   - "Baja" o equivalentes se asignaron el valor `0`.
+[18:50:07] 
+[18:50:07] - **Casos especiales**:
+[18:50:07]   - Las tipologías de vivienda como **Casa** y **Chalet** se asignaron el valor `0`, ya que no contaban con valor en esta columna.
+[18:50:07]   - Para una vivienda cuyo dato indicaba "Más de 20", se le asignó el valor `22` como aproximación.
+[18:50:07] 
+[18:50:07] Este proceso permitió homogenizar los datos en la columna, facilitando su interpretación y uso en análisis posteriores.
+[18:50:07] Se van a agrupar los valores encontrados
+[18:50:07] Los valores nulos de la columna planta se imputaran despues de la division entre train,validacion y test
+[18:50:07] ### *9.2.14 Jardín*
+[18:50:07] La columna `jardín` presentaba información inconsistente según la fuente de datos. En algunas webs, había una columna específica que indicaba si la vivienda disponía o no de jardín, mientras que en otras, esta información aparecía en un campo de texto que también detallaba el tipo de jardín (privado o comunitario). 
+[18:50:07] 
+[18:50:07] Para unificar esta información, se realizó la siguiente asignación:
+[18:50:07] - **Sin jardín**: `0`
+[18:50:07] - **Comunitario**: `1`
+[18:50:07] - **Privado**: `2`
+[18:50:07] 
+[18:50:07] Además, se asumió que la ausencia de datos implicaba que la vivienda no tenía jardín, por lo que a estos casos se les asignó el valor `0`. 
+[18:50:07] 
+[18:50:07] Este enfoque permitió estandarizar la información y garantizar la coherencia en el análisis posterior.
+[18:50:07] Variable convertida a entero para utilizarla en el modelo
+[18:50:07] ### *9.2.13 Imputación de nulos de las variables categóricas*
+[18:50:07] Las varibles categoricas que tenian nulos fueron letra_emisiones   78.48
+[18:50:07] tipo_inmueble     80.93
+[18:50:07] antiguedad        66.03
+[18:50:07] letra_ce          78.48 con esos porcentajes. Se les asigno el valor Desconocido
+[18:50:07] Por tanto las variables categóricas que contenían valores nulos fueron las siguientes, con los respectivos porcentajes de datos faltantes:
+[18:50:07] 
+[18:50:07] - **letra_emisiones**: 78.48%
+[18:50:07] - **tipo_inmueble**: 80.93%
+[18:50:07] - **antigüedad**: 66.03%
+[18:50:07] - **letra_ce**: 78.48%
+[18:50:07] 
+[18:50:07] A estas categorías con valores nulos se les asignó el valor **"Desconocido"** para completar la información y facilitar el análisis posterior. 
+[18:50:07] ## *9.3 Variables booleanas: agrupación e imputación de nulos*
+[18:50:07] Las variables booleanas presentaban los siguientes porcentajes de valores nulos en los datos:
+[18:50:07] 
+[18:50:07] - **balcón**: 85.81%
+[18:50:07] - **terraza**: 75.39%
+[18:50:07] - **trastero**: 73.38%
+[18:50:07] - **ascensor**: 54.29%
+[18:50:07] - **cancha_tenis**: 69.27%
+[18:50:07] - **carpintería_exterior_doble_vidrio/pvc**: 65.66%
+[18:50:07] - **carpintería_exterior_doble_vidrio/madera**: 69.29%
+[18:50:07] - **carpintería_exterior_doble_vidrio/metal**: 69.29%
+[18:50:07] - **carpintería_exterior_triple_vidrio/madera**: 69.29%
+[18:50:07] - **carpintería_exterior_triple_vidrio/metal**: 69.29%
+[18:50:07] - **carpintería_exterior_vidrio/pvc**: 69.29%
+[18:50:07] - **carpintería_exterior_vidrio/madera**: 69.29%
+[18:50:07] - **carpintería_exterior_vidrio/metal**: 69.29%
+[18:50:07] - **chimenea**: 69.24%
+[18:50:07] - **exterior**: 44.91%
+[18:50:07] - **interior**: 69.27%
+[18:50:07] - **portón_eléctrico**: 69.29%
+[18:50:07] - **videoportero**: 66.62%
+[18:50:07] - **puerta_seguridad**: 69.04%
+[18:50:07] 
+[18:50:07] Este análisis muestra que varias de estas variables tienen un porcentaje elevado de valores nulos, lo cual debe ser considerado cuidadosamente para su tratamiento en el análisis o modelado posterior. 
+[18:50:07] #### *9.3.1 Ascensor*
+[18:50:07] Desde el año 2006, la normativa exige que todas las viviendas con más de 3 alturas dispongan de ascensor. Por ello, se decidió que las viviendas cuya antigüedad corresponda a los rangos `menos_5`, `5_10`, `10_30` deben tener asignado el valor `1` en la columna `ascensor`, indicando que disponen de este equipamiento. 
+[18:50:07] 
+[18:50:07] A pesar de esta transformación, aún quedó un 54.29% de valores nulos en la columna, por lo que hariamos un tratamiento adicional para manejar estos datos faltantes y garantizar una mayor consistencia en el análisis. 
+[18:50:07] Seguimos teniendo un 54,34 % de valores nulos en ascensor
+[18:50:07] Observaciones:
+[18:50:07] Le aplicaremos la moda por barrio para la imputación de nulos
+[18:50:07] #### 9.3.2 Balcón, Terraza, Trastero
+[18:50:07] En el caso de las variables `balcón`, `terraza`, `trastero`, `chimenea` y `cancha_tenis`, se decidió asumir que la ausencia de información sobre estas características significa que el inmueble no dispone de ellas. Por lo tanto, para los valores nulos en estas columnas, se asignó un valor que indica la no existencia de dichas características.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] #### *9.3.4 Carpinterias*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Para las variables relacionadas con carpinterías, se establecerá un diccionario que asigne un valor numérico basado en su calidad y eficiencia energética. Este método permite una clasificación lógica que refleja cómo el precio de las carpinterías incrementa proporcionalmente con la mejora de su eficiencia. 
+[18:50:07] 
+[18:50:07] Adicionalmente, los valores nulos se imputarán con el valor `0`, indicando ausencia de información específica sobre la carpintería.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] #### *9.3.5 Interior/Exterior*
+[18:50:07] Redefiniremos la columna "exterior" y le asignaremos valores numéricos en función del siguiente criterio:
+[18:50:07] Si la columna "exterior" tiene  valor 1, se transforma en 2;
+[18:50:07] Si la columna "interior" tiene valor 1, se le asigna 0;
+[18:50:07] Y  para el resto de las filas, se asigna un valor de 1., ya que suponemos que hay menos viviendas totalmente interiores.
+[18:50:07] 
+[18:50:07] ### 9.3.6 Imputación de nulos de las variables booleanas
+[18:50:07] 
+[18:50:07] La imputación de valores nulos se realizará utilizando la **moda de cada barrio** después de dividir los datos en los conjuntos de entrenamiento, validación y test. Este procedimiento asegura que la información entre los conjuntos permanezca independiente, evitando fugas de datos (*data leakage*). 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ## *9.4 Variables numéricas: agrupación e imputación de nulos*
+[18:50:07] Al igual que las variables binarias , las variables númericas no binarias la imputación de nulos se realizará despues de dividir entre train,validacion y test para garantizar que la información de estos tres conjuntos de datos permanezca independiente, ya que el criterio que se va a seguir para realizar esta imputación será la mediana del valor por barrio.
+[18:50:07] 
+[18:50:07] ### *9.4.1 Metros cuadrados útiles*
+[18:50:07] En la columna de m2_utiles tenemos un 77,22% de valores nulos. Calculamos para los valores que no son nulos la relación entre los m2_contr y los m2_utiles, obtenemos el siguiente resultado  count   2248.00
+[18:50:07] mean       1.18
+[18:50:07] std        0.16
+[18:50:07] min        1.00
+[18:50:07] 25%        1.08
+[18:50:07] 50%        1.15
+[18:50:07] 75%        1.24
+[18:50:07] max        3.64, es por ello que calculamos m2_utililes como el 0.85 de los m2_constr.
+[18:50:07] Por tanto en la columna `m2_utiles`, se identificó un **77.22% de valores nulos**. Para abordar esta situación, se calculó la relación entre `m2_constr` y `m2_utiles` para los valores no nulos, obteniendo los siguientes estadísticos:
+[18:50:07] 
+[18:50:07] - **Cantidad de observaciones (count):** 2248
+[18:50:07] - **Promedio (mean):** 1.18
+[18:50:07] - **Desviación estándar (std):** 0.16
+[18:50:07] - **Mínimo (min):** 1.00
+[18:50:07] - **Percentil 25 (25%):** 1.08
+[18:50:07] - **Mediana (50%):** 1.15
+[18:50:07] - **Percentil 75 (75%):** 1.24
+[18:50:07] - **Máximo (max):** 3.64
+[18:50:07] 
+[18:50:07] Con base en este análisis, se decidió estimar los valores faltantes de `m2_utiles` como el **85% de los `m2_constr`** (`m2_utiles = 0.85 * m2_constr`). Este enfoque se fundamenta en que, en promedio, los metros útiles suelen representar aproximadamente un 85% de los metros construidos, lo que simplifica el tratamiento de los datos faltantes y garantiza consistencia en el análisis.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### *9.4.2 Amueblado*
+[18:50:07] Para la columna `amueblado`, se creó un diccionario de mapeo para asignar valores numéricos a las diferentes categorías, representando el nivel de amueblado del inmueble. 
+[18:50:07] 
+[18:50:07] Se asignó el valor `1` a las viviendas completamente amuebladas, mientras que las no amuebladas recibieron el valor `0`. Las categorías intermedias, como "Sólo cocina amueblada" y "Parcialmente amueblado", fueron asignadas con valores proporcionales (`0.1` y `0.5`, respectivamente) para reflejar su nivel de equipamiento.
+[18:50:07] 
+[18:50:07] Adicionalmente, los valores nulos fueron imputados con `0`, ya que se asume que, en general, los inmuebles sin especificación de amueblado tienden a venderse sin muebles.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### *9.4.3 Baños*
+[18:50:07] Para la imputación de los valores nulos en la columna `baños`, se estableció el siguiente criterio:
+[18:50:07] 
+[18:50:07] 1. **Para inmuebles con tipología `Estudio`**:
+[18:50:07]    - Se asumió que estos inmuebles tienen un solo baño, por lo que se les asignó directamente el valor `1`.
+[18:50:07] 
+[18:50:07] 2. **Para el resto de los valores nulos**:
+[18:50:07]    - La imputación se realizará después de dividir los datos en los conjuntos de **entrenamiento**, **validación** y **prueba**, garantizando que no exista fuga de datos (*data leakage*).
+[18:50:07]    - En este caso, se utilizará el estadístico **mediana** calculado a partir de los datos de cada conjunto para completar los valores nulos. 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### *9.4.4 Dormitorios*
+[18:50:07] Revisamos la vivienda de 20 dormitorios
+[18:50:07] La tipologia Estudios se caracteria por que no tiene dormitorios, sino que el salón la cocina y el dormitorio están en la misma estancia
+[18:50:07] Para la imputación de los valores nulos en la columna `dormitorios`, se estableció el siguiente criterio:
+[18:50:07] 
+[18:50:07] 1. **Para inmuebles con tipología `Estudio`**:
+[18:50:07]    - Se asumió que estos inmuebles no tiene dormitorios, por lo que se les asignó directamente el valor `0`.
+[18:50:07] 
+[18:50:07] 2. **Para el resto de los valores nulos**:
+[18:50:07]    - La imputación se realizará después de dividir los datos en los conjuntos de **entrenamiento**, **validación** y **prueba**, garantizando que no exista fuga de datos (*data leakage*).
+[18:50:07]    - En este caso, se utilizará el estadístico **mediana** calculado a partir de los datos de cada conjunto para completar los valores nulos. 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### *9.4.5 Gastos de comunidad*
+[18:50:07] No existe un criterio sencillo para imputar los nulos de gastos de comunidad, vamos a prescindir de la columna por que podemos introducir sesgos en el model
+[18:50:07] ### *9.4.6 Garaje*
+[18:50:07] En la columna garaje teniamos valores con texto , se paso un proceso àra pasarlos a numero y los valores vacios se imputaron con la moda
+[18:50:07] ### *9.4.7 Analisis de Outliers
+[18:50:07] Al realizar el estudio bivariado entre la variable objetivo (*target*) y algunas variables numéricas, identificamos datos que requerían un análisis más detallado. En particular, observamos viviendas con un número elevado de dormitorios, pero con precios y metros construidos significativamente menores de lo esperado para este tipo de propiedades. 
+[18:50:07] 
+[18:50:07] Estos casos atípicos llamaron la atención durante el análisis estadístico inicial y motivaron la realización de un análisis específico de **valores outliers**. Este análisis permitió investigar posibles inconsistencias, como errores en la entrada de datos, registros incompletos o características excepcionales de las propiedades que justificaran su comportamiento atípico.
+[18:50:07] 
+[18:50:07] ##### Dormitorios
+[18:50:07] dfEDA.query("dormitorios==20")[["url","precio","m2_constr"]]
+[18:50:07] Se revisan las webs de estos anuncios y se comprueba que salvo https://www.pisos.com/comprar/piso-arcos28037-42572846684_527461/ el resto no se corresponden con una vivienda, son edificios unos en ruina para reconstruir , otros venta de varios apartamentos en el mismo edificio, etc.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ##### Baños
+[18:50:07] ### *9.4.8 Imputación de nulos de las variables numéricas*
+[18:50:07] Al iguales que las variables binarias, la imputación de los valores nulos de las variables númericas no binarias se va a realizar despues de dividir el dataset en entrenamiento,  validación y el test.
+[18:50:07] Variabilidad de los datos
+[18:50:07] Aunque estas columnas piscina tiene muy poca variabilidad ,son caracteristicas de las viviendas que por si solas no aportarian en un modelo por su gran cantidad de valores nulos y su poca variabilidad pero que agrupadas on otrass variables  pueden influir en la predición del precio de las viviendas.Mantenemos las columna. 
+[18:50:07] # *10. Correlación entre variables númericas*
+[18:50:07] Analizamos la correlación entre las variables númericas una vez realizada la transformación de los datos
+[18:50:07] En la matriz de correlación, observamos la presencia de algunos puntos rojos. Esto indica que existen variables altamente correlacionadas entre sí, lo que significa que están proporcionando información redundante al modelo. Por lo tanto, procederemos a generar una lista de columnas que se pueden eliminar, ya que otras variables ya representan la misma información de manera efectiva. Este proceso nos ayudará a optimizar el modelo y evitar problemas de multicolinealidad
+[18:50:07] Creamos un dataset que incluye únicamente las variables numéricas. Luego, analizamos la correlación entre ellas para identificar aquellas que están altamente correlacionadas (con un coeficiente superior al 90%). Posteriormente, eliminamos una de las variables en cada par altamente correlacionado para reducir la multicolinealidad y optimizar el rendimiento del modelo. Este proceso no solo mejora la interpretabilidad, sino que también ayuda a evitar redundancias en los datos
+[18:50:07] Para determinar qué variable eliminaremos entre las que están correlacionadas, analizaremos la correlación de cada una de ellas con la variable objetivo, ademas tendremos en cuenta el % de nulos que tenia la variable en dataset original. Este enfoque nos permitirá identificar cuál aporta menos información relevante al modelo y, de esa manera, optimizar el conjunto de variables.
+[18:50:07] ### Análisis de las variables a eliminar
+[18:50:07] 
+[18:50:07] #### Comparaciones entre variables:
+[18:50:07] - **m2_utiles y m2_constr:**  
+[18:50:07]   Eliminamos `m2_utiles`, ya que `m2_constr` no tenía valores nulos en el dataset original.
+[18:50:07] 
+[18:50:07] - **cod_barrio y cod_distrito:**  
+[18:50:07]   De momento mantenemos las dos, lnecesitaremos ambas varaibles en para realizar la imputación de nulos.
+[18:50:07]   
+[18:50:07] - **num_persona,num_personas_mujeres y num_personas_hombres:**  
+[18:50:07]   Nos quedamos con `num_personas`, ya que está más correlacionada con la variable target.
+[18:50:07] 
+[18:50:07] - **viv_usadas_transacciones y total_transacciones:**  
+[18:50:07]   Nos quedamos con `total_transacciones`, ya que está más correlacionada con la variable target.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] #### Bloque de variables relacionadas con la renta:
+[18:50:07] - **Variables analizadas:**  
+[18:50:07]   `renta_neta_media_por_persona`, `renta_neta_media_por_hogar`, `mediana_de_la_renta_por_unidad_de_consumo`, `renta_bruta_media_por_persona`, `renta_bruta_media_por_hogar`
+[18:50:07] 
+[18:50:07] - **Decisión:**  
+[18:50:07]   Nos quedamos con `renta_bruta_media_por_persona`, ya que es la variable más correlacionada con el precio.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] #### Bloque de variables relacionadas con los hogares:
+[18:50:07] - **Variables analizadas:**  
+[18:50:07]   `habitantes`, `hogares`, `hog_con_1`, `hog_con_2`, `hog_con_3`, `hog_con_4`, `hog_con_5`, `hog_con_6`,  
+[18:50:07]   `hog_con_7`, `hog_con_8`, `hog_con_9`, `hog_con_10`, `hog_con_11`, `hog_con_12`, `hog_con_13`, `hog_con_14`, `hog_con_15_y_más`
+[18:50:07] 
+[18:50:07] - **Decisión:**  
+[18:50:07]   Nos quedamos con las columnas `habitantes`, `hog_con_10` y `hog_con_15_y_más`.
+[18:50:07] 
+[18:50:07] #### Bloque de variables relacionadas con servicios deen el barrio:
+[18:50:07] - **Variables analizadas:** 
+[18:50:07]  `servicios_profesionales `, `comercio_serviciosminoristas `, `cultura_entretenimiento `,  `salud_bienestar_educacion `
+[18:50:07] 
+[18:50:07]  - **Decisión:**  
+[18:50:07]   Nos quedamos con las todas las columnas, se creará una columna como suma de las cuatro.
+[18:50:07] 
+[18:50:07] Generamos una copia del dataframe antes de realizar la division en train y test
+[18:50:07] # *10. Division entre train y test*
+[18:50:07] ## *_10.1. Agrupación viviendas por precio promedio barrio_*
+[18:50:07] Para garantizar que los conjuntos de entrenamiento, validación y test estén equilibrados en términos de rangos de precio y barrios, se realizará una agrupación de las viviendas basada en el precio promedio por barrio. El procedimiento incluye los siguientes pasos:
+[18:50:07] 
+[18:50:07] 1. **Cálculo del precio promedio por barrio**:
+[18:50:07]    - Agrupar los datos por la columna `cod_barrio` y calcular el promedio de los precios de las viviendas en cada barrio.
+[18:50:07] 
+[18:50:07] 2. **Clasificación en cinco grupos**:
+[18:50:07]    - Utilizar `pd.qcut()` para dividir los barrios en cinco grupos equitativos según el precio promedio. Cada grupo será etiquetado con números del `1` al `5`.
+[18:50:07] 
+[18:50:07] 3. **Creación del mapeo**:
+[18:50:07]    - Generar un diccionario que asigne cada `cod_barrio` a su grupo correspondiente (`cod_barrio_group`). Este mapeo luego será aplicado al DataFrame original para etiquetar las viviendas con sus respectivos grupos.
+[18:50:07] 
+[18:50:07] 4. **Conteo de viviendas por grupo**:
+[18:50:07]    - Contar las viviendas en cada grupo y ordenar los resultados para garantizar que los conjuntos estén bien distribuidos.
+[18:50:07] 
+[18:50:07] 5. **Exportación del mapeo**:
+[18:50:07]    - Guardar el diccionario `cod_barrio_mapping` en un archivo JSON para facilitar su reutilización en análisis futuros o actualizaciones del modelo.
+[18:50:07] 
+[18:50:07] Al seguir este proceso, los conjuntos de entrenamiento, validación y test contendrán viviendas de todos los rangos de precio y de diferentes barrios, lo que garantizará que el modelo sea entrenado con datos representativos y equilibrados.
+[18:50:07] 
+[18:50:07] Los grupos quedaran con estos rangos 
+[18:50:07] Grupo 1: Este grupo contiene 1599 viviendas. Rango de precios: 111940.91 - 232568.00. 
+[18:50:07] Grupo 2: Este grupo contiene 1206 viviendas. Rango de precios: 232568.00 - 334194.44. 
+[18:50:07] Grupo 3: Este grupo contiene 1322 viviendas. Rango de precios: 334194.44 - 590108.70. 
+[18:50:07] Grupo 4: Este grupo contiene 2148 viviendas. Rango de precios: 590108.70 - 937714.29. 
+[18:50:07] Grupo 5: Este grupo contiene 3588 viviendas. Rango de precios: 937714.29 - 3109250.00. 
+[18:50:07] 
+[18:50:07] Cada barrio está en un grupo cod_barrio_group
+[18:50:07] En el grafico se aprecia que las viviendas del distrito de Salmanca estan entre el grupo 4 y 5, y el grupo 1 está formado por viviendas de los barrios de Puente de Vallecas, Carabanchel Villaverde y Villa de Vallecas fundamentalmente.
+[18:50:07] 10.2 Division entre train ,validacion y test
+[18:50:07] Vamos a generar dos divisiones que trataremos durante todo el dataframe, una dicision entre train, validacion y test y otra otra entre validacion y test.
+[18:50:07] En l a primera test tendrá el 20% de los datos y validacion el 20% de los datos de train.
+[18:50:07] 
+[18:50:07] En la segunda train tendrá el 80% de los datos y test el 20%.La division se realizó estratificando por la columna 'cod_barrio_group'
+[18:50:07] 
+[18:50:07] El número de observaciones de cada conjunto de datos fué 
+[18:50:07] Número de observaciones
+[18:50:07] - Train:  6312
+[18:50:07] - Test:   1973
+[18:50:07] - Val:    1578
+[18:50:07] 
+[18:50:07] y
+[18:50:07] 
+[18:50:07] Número de observaciones
+[18:50:07] - Train1:  6312
+[18:50:07] - Test1:   1973
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Nota: Se podria haber hecho un unica dcisión y al final dividir train entre train y validación.
+[18:50:07] - La división se realizó **estratificando por la columna `cod_barrio_group`**, asegurando que todas las categorías de barrios estén representadas proporcionalmente en los tres conjuntos.
+[18:50:07] Para manejar el conjunto de datos de manera eficiente, se realizaron dos divisiones que se utilizarán a lo largo de todo el análisis:
+[18:50:07] 
+[18:50:07] ### Primera División: **Train, Validación y Test**
+[18:50:07] - En esta división, se definió:
+[18:50:07]   - **Test**: 20% de los datos totales.
+[18:50:07]   - **Validación**: 20% de los datos del conjunto de **Train**.
+[18:50:07] 
+[18:50:07] - **Número de observaciones resultantes**:
+[18:50:07]   - **Train**: 6312 observaciones.
+[18:50:07]   - **Test**: 1973 observaciones.
+[18:50:07]   - **Validación**: 1578 observaciones.
+[18:50:07] 
+[18:50:07] ### Segunda División: **Train y Test**
+[18:50:07] - En esta división, se tomó:
+[18:50:07]   - **Train**: 80% de los datos.
+[18:50:07]   - **Test**: 20% de los datos.
+[18:50:07] - También se realizó **estratificación por la columna `cod_barrio_group`** para garantizar representatividad.
+[18:50:07] - **Número de observaciones resultantes**:
+[18:50:07]   - **Train1**: 6312 observaciones.
+[18:50:07]   - **Test1**: 1973 observaciones.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### Nota:
+[18:50:07] Se consideró que, en lugar de realizar dos divisiones separadas, se podría haber optado por una única división inicial, seguida de la separación del conjunto de **Train** en **Train** y **Validación**. Este enfoque simplificaría el procedimiento, pero ambas opciones son válidas dependiendo de las necesidades del análisis.
+[18:50:07] 
+[18:50:07] Comprobamos que entrenameros con viviendas de los 131 barriode de Madrid
+[18:50:07] # *11. Feature Engineering*
+[18:50:07] ## *11.1 Variables pendientes de imputar nulos*
+[18:50:07] La siguiente llista contiene las columnas que aún tienen valores nulos y su respectivo porcentaje:
+[18:50:07] 
+[18:50:07] | **Columna**           | **% de Nulos** |
+[18:50:07] |------------------------|----------------|
+[18:50:07] | **armarios**           | 87.64%         |
+[18:50:07] | **num_garajes**        | 79.96%         |
+[18:50:07] | **porton_electrico**   | 69.31%         |
+[18:50:07] | **puerta_seguridad**   | 69.04%         |
+[18:50:07] | **videoportero**       | 66.59%         |
+[18:50:07] | **ascensor**           | 53.41%         |
+[18:50:07] | **planta**             | 41.29%         |
+[18:50:07] | **baños**              | 4.10%          |
+[18:50:07] | **dormitorios**        | 1.63%          |
+[18:50:07] 
+[18:50:07] A estas columnas les aplicaremos distintos procesos para realizar proceso de imputación.
+[18:50:07] 
+[18:50:07] #### *11.1.1 Imputacion de nulos con la moda por barrio en variables booleanas*
+[18:50:07] La imputación de valores nulos en variables booleanas se realizará utilizando la **moda de cada barrio** después de dividir los datos en los conjuntos de entrenamiento, validación y test. Este procedimiento asegura que la información entre los conjuntos permanezca independiente, evitando fugas de datos (*data leakage*). 
+[18:50:07] 
+[18:50:07] Si la imputación se llevara a cabo antes de la división, el modelo de entrenamiento podría beneficiarse indirectamente de información proveniente de los conjuntos de validación o test, lo que generaría resultados demasiado optimistas y poco realistas. Al realizar la imputación posteriormente, garantizamos que las métricas obtenidas en validación y test sean fiables y representen de manera precisa el rendimiento del modelo en datos desconocidos.
+[18:50:07] 
+[18:50:07] Las variables a las que se aplicará este procedimiento y sus respectivos porcentajes de valores nulos son:
+[18:50:07] - **ascensor**: 54.29%
+[18:50:07] - **porton_electrico**: 69.29%
+[18:50:07] - **videoportero**: 66.62%
+[18:50:07] - **puerta_seguridad**: 69.04%
+[18:50:07] 
+[18:50:07] Además guardaresmos en un ficheros las modas imputadas para utilizarlas cunado el modelo esté en producción "estadisticos_imp_nulos_bool.json"
+[18:50:07] #Igualamos dftrain_imputado  a dftrain
+[18:50:07] #### * 11.2.1 Imputacion de nulos con la mediana de varables no booleanos*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### Imputación de valores nulos en `planta`, `baños`, `dormitorios` y `num_garajes`:
+[18:50:07] 
+[18:50:07] **Variable `baños`**:
+[18:50:07]    - Los valores nulos se imputarán utilizando la **mediana** agrupada por **barrio** y la columna `cod_barrio_m2_contr` (metros construidos por barrio).
+[18:50:07] 
+[18:50:07] **Variable `dormitorios`**:
+[18:50:07]    - Se aplicará un enfoque similar, utilizando la **mediana** por agrupación de **barrio** y `cod_barrio_m2_contr`.
+[18:50:07] 
+[18:50:07] **Variable `armarios`**:
+[18:50:07]    - Se aplicará un enfoque similar, utilizando la **mediana** por agrupación de **barrio** y `cod_barrio_m2_contr`.
+[18:50:07] 
+[18:50:07] **Variable `planta`**:
+[18:50:07]    - Los valores nulos se imputarán en dos pasos principales:
+[18:50:07]      1. **Para la tipología `Atico`**: 
+[18:50:07]         - Se utiliza un diccionario que contiene los **máximos** de `planta` por **barrio** y **distrito**, calculados a partir de los conjuntos de entrenamiento (`dftrain` y `dftrain1`).
+[18:50:07]      2. **Para el resto de tipologías**:
+[18:50:07]         - Se calcula la **mediana** de `planta` agrupando por **barrio** y **tipología** o por **distrito** y **tipología**.
+[18:50:07] 
+[18:50:07]        - Si todavía quedan valores nulos, se asigna un valor por defecto de `2`.
+[18:50:07] 
+[18:50:07] **Variable `num_garajes`**:
+[18:50:07]    - Los valores nulos se imputarán utilizando la **moda** calculada:
+[18:50:07]      - Primero, por **barrio** (`cod_barrio`).
+[18:50:07]      - Luego, en caso de valores restantes, por **distrito** (`cod_distrito`).
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### Clasificación por rangos de metros construidos (`m2_constr`) utilizado para `baños` , `dormitorios` y  `armarios`:
+[18:50:07] 
+[18:50:07] #### Para `X_train`:
+[18:50:07] | **Grupo** | **Número de viviendas** | **Rango (m2_constr)**          |
+[18:50:07] |-----------|--------------------------|---------------------------------|
+[18:50:07] | Grupo 1   | 824                      | 53.86 - 79.67                  |
+[18:50:07] | Grupo 2   | 1090                     | 79.67 - 92.31                  |
+[18:50:07] | Grupo 3   | 1115                     | 92.31 - 121.21                 |
+[18:50:07] | Grupo 4   | 1713                     | 121.21 - 147.80                |
+[18:50:07] | Grupo 5   | 1570                     | 147.80 - 913.27                |
+[18:50:07] 
+[18:50:07] #### Para `X_train1`:
+[18:50:07] | **Grupo** | **Número de viviendas** | **Rango (m2_constr)**          |
+[18:50:07] |-----------|--------------------------|---------------------------------|
+[18:50:07] | Grupo 1   | 968                      | 53.58 - 78.17                  |
+[18:50:07] | Grupo 2   | 1484                     | 78.17 - 90.53                  |
+[18:50:07] | Grupo 3   | 1543                     | 90.53 - 124.80                 |
+[18:50:07] | Grupo 4   | 1989                     | 124.80 - 151.52                |
+[18:50:07] | Grupo 5   | 1906                     | 151.52 - 968.73                |
+[18:50:07] 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### Diccionarios generados para `planta`:
+[18:50:07] 
+[18:50:07] 1. **Máximos de planta por barrio y distrito**:
+[18:50:07]    - **`max_planta_barrio_dict`** y **`max_planta_distrito_dict`**: Diccionarios creados con los valores máximos de `planta` calculados por **barrio** y **distrito** a partir del conjunto `dftrain`.
+[18:50:07]    - **`max_planta_barrio_dict1`** y **`max_planta_distrito_dict1`**: Similares, pero para el conjunto `dftrain1`.
+[18:50:07] 
+[18:50:07] 2. **Medianas de planta por agrupaciones**:
+[18:50:07]    - **`median_por_barrio_bol_dict`** y **`median_por_distrito_bol_dict`**: Contienen las **medianas** por **barrio** y **tipología**, o por **distrito** y **tipología**, calculadas en `dftrain`.
+[18:50:07]    - **`median_por_barrio_bol_dict1`** y **`median_por_distrito_bol_dict1`**: Similares, pero calculadas en `dftrain1`.
+[18:50:07] 
+[18:50:07] ---
+[18:50:07] 
+[18:50:07] ### Diccionarios generados para `baños`, `dormitorios` y `num_garajes`:
+[18:50:07] 
+[18:50:07] 1. **Diccionario `median_codbarrio_m2_constr.json`**:
+[18:50:07]    - Incluye las medianas calculadas para baños y dormitorios por **barrio** y **distrito**.
+[18:50:07] 
+[18:50:07] 2. **Diccionario `median_global_m2_constr.json`**:
+[18:50:07]    - Almacena las medianas globales para casos donde no haya datos disponibles por barrio o distrito.
+[18:50:07] 
+[18:50:07] 3. **Diccionario `moda_num_garajes.json`**:
+[18:50:07]    - Contiene las modas de `num_garajes` calculadas por **barrio** y **distrito** para imputaciones más precisas.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Todos los diccionarios se guardan en archivos JSON, permitiendo reutilizarlos en otros análisis o imputaciones posteriores sin necesidad de recalcular.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Llamamos a la funcion clasificar_barrios_por_m2 para crear en los conjuntos de train la agrupación de m2_constr y barrio
+[18:50:07] Aplicamos la clasificación realizada en dftrain a los conjuntos de datos de validación y test
+[18:50:07] #### *11.2.1.1 Baños y dormitorios*
+[18:50:07] Comprobación en los nulos de baño, del barrio de Embajadores, doc_barrio=12
+[18:50:07] #### *11.2.1.2 Planta*
+[18:50:07] Ahora imputo los nulos de planta del resto de tipologias diferentes a Atico
+[18:50:07] La mediana por barrio se quedará vacio si hay algun barrio que no tenga ningun valor de planta
+[18:50:07] #### *11.2.1.3 Numero garajes*
+[18:50:07] Voy a imputar el numero de garajes con la moda por barrio
+[18:50:07] ## *11.2 Generación de nuevas variables*
+[18:50:07] ### Mejorando el modelo con variables adicionales
+[18:50:07] 
+[18:50:07] Para optimizar el entrenamiento del modelo, se crearán las siguientes variables, diseñadas para aportar información relevante y mejorar la precisión del análisis:
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Precio medio por barrio**  
+[18:50:07] - Promedio de precios de viviendas en cada barrio. Ayuda a identificar diferencias económicas entre áreas geográficas.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Precio medio por tipología y distrito**  
+[18:50:07] - Calcula el promedio de precios agrupando por **tipología de vivienda** (chalet, piso, ático, etc.) y **distrito**. Es útil para observar cómo los precios varían según el tipo de vivienda y su ubicación.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Total estaciones**  
+[18:50:07] - Número total de estaciones de transporte público disponibles en un radio específico alrededor de cada propiedad. Evalúa la accesibilidad del transporte público como un factor clave de conveniencia.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Habitaciones**  
+[18:50:07] - Representa el número total de habitaciones en la vivienda, incluyendo dormitorios y baños. Es un atributo esencial para clasificar propiedades.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Proporción entre `m2_constr` y habitaciones**  
+[18:50:07] - Relación entre los metros cuadrados construidos (`m2_constr`) y el número de habitaciones. Refleja el promedio de espacio por habitación, indicador importante para evaluar comodidad y diseño.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Atributos lujo**  
+[18:50:07] - Agrupación de características de lujo como piscina, cancha de tenis, jardín privado, etc. Destaca propiedades con características exclusivas.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Resto Atributos**  
+[18:50:07] - Incluye características adicionales no clasificadas como lujo, como trastero, ascensor, balcón, etc. Proporciona un análisis general de equipamientos y servicios presentes.
+[18:50:07] 
+[18:50:07] **Servicios Barrio**  
+[18:50:07] - Evalúa la disponibilidad de servicios como supermercados, colegios, parques, centros médicos en el barrio. Determina la calidad de vida asociada a la ubicación de cada propiedad.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] **Codificación por Frecuencia del Barrio**  
+[18:50:07] - Calcula la frecuencia absoluta de cada categoría de `cod_barrio` en el conjunto de datos. Estas frecuencias se asignan a cada fila utilizando un mapeo (`map`), generando una nueva columna llamada `cod_barrio_frecuency`. Esto transforma el barrio en una variable numérica proporcional a su prevalencia en el dataset.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Este enfoque permite crear variables informativas que capturan diferentes aspectos de las propiedades y sus ubicaciones, ayudando al modelo a identificar patrones y relaciones importantes. 
+[18:50:07] #### *11.2.1 Precio medio por barrio*
+[18:50:07] #### *11.2.2 Precio medio por tipologia y distrito*
+[18:50:07] Esto puede ayudar a entender si una propiedad está sobrevaluada o subvaluada en relación con los ingresos de la zona. Un valor más alto indicaría que los precios son más altos en relación con el ingreso de las personas.
+[18:50:07] 
+[18:50:07] #### *1.2.2 Total estaciones*
+[18:50:07] #### *11.2.3 Habitaciones*
+[18:50:07] ### 11.2.3 Proporción entre m2_constr y habitaciones
+[18:50:07] #### *11.2.4 Atributos lujo*
+[18:50:07] #### *11.2.5 Resto Atributos*
+[18:50:07] #### *11.2.6 Servicios Barrio*
+[18:50:07] #### *11.2.6 Codificación por Frecuencia del Barrio*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ## *11.3 Categorical encoding*
+[18:50:07] 
+[18:50:07] ### Codificación de Variables Categóricas
+[18:50:07] 
+[18:50:07] Realizaremos la transformación de variables categóricas mediante **OneHotEncoder** y combinaremos los resultados con las columnas no codificadas. Este proceso tiene como objetivo:
+[18:50:07] 
+[18:50:07] - **Representar variables categóricas de forma binaria**, facilitando su uso en algoritmos de Machine Learning que no manejan categorías directamente.
+[18:50:07] - **Preservar consistencia entre conjuntos**: Los codificadores entrenados en `X_train` y `X_train1` serán reutilizados para codificar los conjuntos de validación (`X_val`) y prueba (`X_test` y `X_test1`), evitando inconsistencias y asegurando uniformidad en el tratamiento de los datos.
+[18:50:07] - **Garantizar la integridad de la información**: Las columnas no categóricas se combinarán con las transformadas, asegurando que ninguna característica relevante se pierda durante el proceso.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ### Variables a Codificar
+[18:50:07] 
+[18:50:07] Este procedimiento se aplicará a las siguientes variables categóricas:
+[18:50:07] - `tipologia`
+[18:50:07] - `antiguedad`
+[18:50:07] - `tipo_inmueble`
+[18:50:07] - `aire`
+[18:50:07] - `tipo_suelo`
+[18:50:07] - `grupo_cocina`
+[18:50:07] 
+[18:50:07] Para realizar el categorial enooding nos quedamos con X_train, eliminando la variable target del dataframe
+[18:50:07] # *12. Análisis estadístico final: hallazgos clave y patrones relevantes*
+[18:50:07] 
+[18:50:07] Vamos a realizar las siguientes tareas
+[18:50:07] 
+[18:50:07] - Resúmenes estadísticos: Valores como la media, mediana, desviación estándar y percentiles.
+[18:50:07] - Graficas con las distribuciones de las variables relevantes.
+[18:50:07] - Relaciones entre variables: Correlaciones o dependencias entre las variables mediante gráficos como diagramas de dispersión o mapas de calor.
+[18:50:07] - Valores atípicos y anomalías: Identificación de datos fuera de lo esperado o que puedan influir en el modelo.
+[18:50:07] 
+[18:50:07] Tabla con la definicion de las columnas tenemos en el dataset final
+[18:50:07] 
+[18:50:07] | **Variable**                         | **Descripción** |
+[18:50:07] |--------------------------------------|----------------|
+[18:50:07] | **cod_distrito**                      | Código del distrito donde se encuentra la vivienda |
+[18:50:07] | **cod_barrio**                        | Código del barrio donde se ubica la vivienda |
+[18:50:07] | **codigo_postal**                     | Código postal de la vivienda |
+[18:50:07] | **cod_barrio_frecuency**              | Frecuencia del código de barrio en el dataset |
+[18:50:07] | **precio_mean_b**                     | Precio medio de las viviendas en el barrio |
+[18:50:07] | **renta_bruta_media_por_persona**     | Renta bruta media por persona en la zona | 
+[18:50:07]   **habitaciones**                      | Cantidad de habitaciones (dormitorios+ baños) de la vivienda |
+[18:50:07] | **total_transacciones**               | Número total de transacciones de viviendas en la zona |
+[18:50:07] | **pm_tlogia_distrito**                | Precio medio por tipología en el distrito |
+[18:50:07] | **hog_con_10**                        | Número de hogares con 10 personas |
+[18:50:07] | **viv_nuevas_transacciones**          | Número de transacciones de viviendas nuevas en la zona |
+[18:50:07] | **tamano_medio_del_hogar**            | Tamaño medio del hogar en la zona |
+[18:50:07] | **lineas_metro**                      | Número de líneas de metro cercanas |
+[18:50:07] | **m2_areasverdes**                    | Metros cuadrados de áreas verdes cercanas |
+[18:50:07] | **total_estaciones**                  | Número total de estaciones de transporte público cercanas |
+[18:50:07] | **estado**                            | Estado de conservación de la vivienda |
+[18:50:07] | **energia**                           | Tipo de energia de califección y agua caliente |
+[18:50:07] | **atrib**                             | Características adicionales de la vivienda |
+[18:50:07] | **planta**                            | Planta en la que se encuentra la vivienda |
+[18:50:07] | **ins_comunitaria**                   | Indica si tiene el agua caliente o la calefaccion es individual o comunitaria |
+[18:50:07] | **num_personas**                      | Número de personas que residen en el barrio |
+[18:50:07] | **tam_hogar**                         | Tamaño del hogar |
+[18:50:07] | **atrib_lujo**                        | Suma de las caracteristicas de lujo de la vivienda |
+[18:50:07] | **serv_barrio**                       | Cantidad de servicios disponibles en el barrio |
+[18:50:07] | **m2_por_hab**                        | Metros cuadrados por habitacion en la vivienda |
+[18:50:07] | **m2_constr**                         | Metros cuadrados construidos de la vivienda |
+[18:50:07] | **hog_con_15_y_más**                  | Número de hogares con 15 o más personas |
+[18:50:07] | **amueblado**                         | Indica si la vivienda está amueblada |
+[18:50:07] | **eficiencia_carpinteria**            | Nivel de eficiencia de la carpintería en la vivienda |
+[18:50:07] | **url**                               | URL del anuncio de la vivienda |
+[18:50:07] | **certificado_energetico**            | Indica si tiene o no certificado de eficiencia energetica |
+[18:50:07] | **orientacion_este, oeste, sur, norte** | Variables binarias que indican la orientación de la vivienda |
+[18:50:07] | **tipologia_Atico, Casa, Chalet, Duplex, Estudio, Piso** | Variables binarias que indican el tipo de vivienda |
+[18:50:07] | **antiguedad_10_30, 30_50, 5_10, Desconocido, más_50, menos_5** | Variables binarias que indican la antigüedad de la vivienda |
+[18:50:07] | **tipo_inmueble_Desconocido, económico, lujo, medio, señorial** | Variables binarias que indican el tipo de inmueble |
+[18:50:07] | **aire_Desconocido, Eficiente, Normal, Sin_Aire** | Variables binarias que indican la presencia y tipo de aire acondicionado |
+[18:50:07] | **tipo_suelo_Baldosa, Desconocido, Gres, Madera, Otros, Piedra, Radiante** | Variables binarias que indican el tipo de suelo |
+[18:50:07] | **grupo_cocina_Abierta, Amueblada, Desconocido, Equipada, Independiente, No_amueblada, Reformada, Sin_reforma** | Variables binarias que indican el tipo de cocina |
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ##### Union variable target a X_train
+[18:50:07] 
+[18:50:07] Para hacer el analisis estaditico final sobre el conjunto de datos X_train_final le uniremos la variable target ("precio")
+[18:50:07] #### Tipos de variables
+[18:50:07] ##### Resumen estadistico
+[18:50:07] **En esta tabla podemos ver que:**
+[18:50:07] 
+[18:50:07] **Valores extremos en 'm2_constr'**  : El valor máximo de 3250 m² parece muy alto comparado con el percentil 75 (150 m²). 
+[18:50:07] 
+[18:50:07] **Valores inusuales en 'm2_por_hab'**  :  - El valor máximo es 415 m² por habitación, lo cual es excesivo. Posible error en la cantidad de habitaciones o en los metros cuadrados.
+[18:50:07] 
+[18:50:07] **'m2_areasverdes' tiene una gran dispersión** :   - Rango enorme desde 19,677 hasta 19,901,426 m². Puede haber errores en la unidad de medida.
+[18:50:07] 
+[18:50:07] **Valores extremos en precios**  :  - 'precio_mean_b' y 'pm_tlogia_distrito' tienen valores muy altos, lo que podría implicar la presencia de outliers o grandes diferencias entre barrios.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ## *11.1 Distribución variable target*
+[18:50:07] Las gráficas muestran la distribución de la variable "precio" en su forma original y después de aplicar una transformación logarítmica.
+[18:50:07] 
+[18:50:07] ####   Distribución Original del Precio (Histogramas y Boxplots)
+[18:50:07] - Histograma : La distribución del precio es altamente sesgada a la derecha (sesgo positivo). La mayoría de los valores están concentrados en el rango bajo, mientras que hay algunos valores extremadamente altos (colas largas).
+[18:50:07] - Boxplot : Se observa una gran cantidad de valores atípicos (outliers) que se alejan del cuerpo principal de la distribución, lo que sugiere que hay precios muy elevados en comparación con la mayoría.
+[18:50:07] 
+[18:50:07] ####  Distribución Logarítmica del Precio
+[18:50:07] - Histograma : Después de aplicar una transformación logarítmica, la distribución se vuelve más simétrica y cercana a una distribución normal. Se reducen los efectos de la asimetría y la dispersión.
+[18:50:07] - Boxplot : Se observa que los valores están más equilibrados y los outliers están menos pronunciados, lo que indica que la transformación logarítmica ayuda a reducir la influencia de los valores extremos.
+[18:50:07] 
+[18:50:07] Por lo tanto, la transformación logaritmica suaviza considerablemente la distribución de la variable precio.
+[18:50:07] ## *11.2 Distribución variables númericas continuas*
+[18:50:07] Vamos a analizar la distribución de las variables continuas con histogramas y graficos de violín
+[18:50:07] Vamos a analizar algunas graficas de varaibles creadas en el proceso de featuring engineers
+[18:50:07] 
+[18:50:07] * cod_barrio_frecuency: Presenta varios barrios con frecuencias distintas. Algunos barrios tienen muchas propiedades mientras que otros tienen pocas.En el grafico de violin la presencia de  múltiples picos refuerza la idea de que hay diferencias significativas en la cantidad de propiedades por barrio. Analizaremos su impacto en el precio.
+[18:50:07] * pm_tipologia_distrito : Parece tener valores discretos, lo que sugiere que está categorizando distintos tipos de inmuebles dentro de cada distrito.
+[18:50:07]  Es posible que haya distritos con una mayor variedad de tipologías que otros.
+[18:50:07] * atrib : En el histograma podemos observar que la mayoría de los valores concentrados en un rango bajo.
+[18:50:07] El grafico de violín presenta una fuerte asimetría, lo que sugiere que la mayoría de las propiedades tienen pocos atributos y unas pocas tienen muchos.
+[18:50:07] * atrib_lujo: La mayoría de los valores parecen estar en 0, con unos pocos casos de valores altos,las viviendas de lujo son una minoría en el dataset.Analizaremos esta variable con el precio.
+[18:50:07] * euro_m2_barrio: Tiene una distribución más normal que otras varaibles.En el grafico de violin se
+[18:50:07] observan variaciones en los valores por barrio, indicando que algunos barrios tienen un precio por metro cuadrado significativamente más alto que otros. También pueden existir algunos valores extremos que representen barrios exclusivos o errores en los datos. Analizaremos esos valores.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] atrib_lujo y euro_m2_barrio podrían estar directamente relacionados con precios altos y con zonas exclusivas, por lo que su análisis es clave para la predicción de precios.
+[18:50:07] 
+[18:50:07] ## *11.3 Distribución variables númericas booleanas*
+[18:50:07] ## *11.4 Distribucion variables categoricas*
+[18:50:07] ## *11.5 Relaciones entre variables*
+[18:50:07] ##### Variable atrib_lujo vs precio
+[18:50:07] El grafico muestra como la media el precio es mayor cuando mayor es el valor de la variable atrib_lujo
+[18:50:07] ##### Variable eurom2_barrio vs precio
+[18:50:07] En la variable `estado`, el valor **0** indica datos desconocidos, el **1** corresponde a viviendas que requieren reforma, el **2** representa propiedades en buen estado, el **3** identifica viviendas en perfecto estado, el **4** señala viviendas reformadas y el **5** clasifica propiedades de obra nueva.
+[18:50:07] En el grafico de la izquierdamuestra cómo varía la media de los precios en cada distrito y cómo influye el estado de las viviendas. Por ejemplo, en el distrito 4 hay una media de precio muy alta con una gran proporción de viviendas en estado 5 (obra nueva), lo que sugiere que los precios más altos están en viviendas nuevas.
+[18:50:07] En el de la derechase observa la composición porcentual de los estados de las viviendas en cada distrito. Por ejemplo, algunos distritos tienen una alta proporción de viviendas en estado 5 (obra nueva), pe distrito 16, mientras que otros tienen más viviendas en estado 1 (necesitan reforma). Esto ayuda a entender la distribución del mercado inmobiliario en cada zona.
+[18:50:07] 
+[18:50:07] 
+[18:50:07] ##### Matriz de correlación
+[18:50:07] 
+[18:50:07] **Relaciones fuertes y positivas**:
+[18:50:07]    - Algunas variables como `precio`, `m2_constr` (metros cuadrados construidos) y `euro_m2_barrio` (euros por metro cuadrado del barrio) probablemente tienen una correlación positiva alta. Esto refleja que precios más altos tienden a estar asociados con propiedades más grandes o ubicadas en barrios más caros.
+[18:50:07]    
+[18:50:07] **Relaciones negativas**:
+[18:50:07]    - Variables como `antiguedad` (años desde la construcción) pueden mostrar correlaciones negativas con el `precio`, lo cual indica que viviendas más antiguas tienden a ser menos costosas.
+[18:50:07] 
+[18:50:07] **Variables categóricas codificadas**:
+[18:50:07]    - Las categorías codificadas como `tipo_inmueble_lujo` o `aire_Eficiente` parecen tener correlaciones específicas con ciertos atributos de lujo o energía.
+[18:50:07] #### Valores Atipicos
+[18:50:07] 
+[18:50:07] ### **1. Outliers en precio**  
+[18:50:07] - Hay algunas observaciones con precios extremadamente altos (en el orden de **10M+**).  
+[18:50:07] - Estos valores son propiedades de lujo ya que se ha comprobado que no son errores en los datos.  
+[18:50:07] - Será conveniente realizar la transformación logarítmica para tratarlos.  
+[18:50:07] 
+[18:50:07] ### **2.Otras variables con outliers claros**  
+[18:50:07] - **m2_constr**: Hay algunas viviendas con **más de 2000-3000 m²**, lo cual es atípico para la mayoría de los casos.  
+[18:50:07] - **num_personas**: Existen algunos valores extremadamente altos, llegando a más de **60,000**, lo que indica que hay barrios con más población que otros.
+[18:50:07] - **serv_barrio**: Hay algunas observaciones con valores extremadamente altos, lo que indica que hay barrios con más dotación de servicios que otros.
+[18:50:07] - **renta_bruta_media_por_persona**: Se observan puntos alejados con valores superiores a **40,000**, que pueden ser valores de distritos con mejor nivel econmico.
+[18:50:07] - **m2_por_hab**: Hay valores inusualmente altos (**más de 800 m² por habitación**), lo que podría indicar errores en los datos.  
+[18:50:07] 
+[18:50:07] # *13. Generación de ficheros .csv*
+[18:50:07] 
+[18:50:07] ## *13.2 Exportación train,test,validacion para generación del modelo*
+[18:50:07] ## *13.2 Exportación Clustering*
+[18:50:07] 
+[18:50:07] 
+[18:50:07] Se va a generar un dataframe con todos los datos para realizar el analisis del clustering
+[18:50:07] #Cambiar tipo de dato "cod_barrio","cod_distrito","cod_postal" a entero
+[18:50:07] 
+[18:50:07] 
+[18:50:07] 
+[18:50:07] # *14. Conclusiones*
+[18:50:07] Ficheros json generados
+[18:50:07] 
+[18:50:07] "cod_barrio_mapping.json": Se dividen los barrios en 5 grupos equitativos según el precio medio, asignando etiquetas del 1 al 5 a cada uno de los barrios. El fichero también guarda los bins por los que se ha hecho la division de los barrios en grupos.
+[18:50:07] Se utiliza para que al hacer la division entre train y test todos los barrios y todos los precios estén representados en los 2 conjuntos
+[18:50:07] 
+[18:50:07] "estadisticos_imp_nulos_bool.json":  Almacena diccionarios, las modas por barrio y por distrito y barrio de train.
+[18:50:07] 
+[18:50:07] clasificacion_barrios_m2.json: Se dividen los barrios en 5 grupos segun la media de los m2 , asignando etiquetas del 1 al 5. El fichero tambien guarda los  bins de m2 por los que se ha hecho la division
+[18:50:07] 
+[18:50:07] #para imputar nulos en dormitorios, baños y armarios
+[18:50:07] "median_codbarrio_m2_constr": valor de la mediana por barrio y distrito teniendo en cuenta el grupo de clasificacion de los m2
+[18:50:07] 
+[18:50:07] si con median_codbarrio_m2_constr" seguimos teniendo nulos por que no hay valor para un grupo  de m2 y un barrio o distrito se aplica
+[18:50:07] "median_global_m2_constr"
+[18:50:07] 
+[18:50:07] "max_planta": maxima planta por barrio y por distrito
+[18:50:07] 
+[18:50:07] "media_planta_porbarrioNoaticos"
+[18:50:07] "moda_num_garajes.json"
+[18:50:07] 
+[18:50:07] - La variable "precio" en su estado original presenta una distribución altamente sesgada y con una gran cantidad de valores atípicos.
+[18:50:07] - La transformación logarítmica mejora la distribución, haciéndola más normal y facilitando su uso en modelos de regresión o análisis estadístico.
+[18:50:07] - Este tipo de transformación puede ayudar a mejorar la interpretación y el rendimiento de los modelos que asumen una distribución normal en los datos.
