@@ -1,0 +1,132 @@
+cod_distrito,distrito,cod_barrio,barrio
+1,Centro,11,Palacio
+1,Centro,12,Embajadores
+1,Centro,13,Cortes
+1,Centro,14,Justicia
+1,Centro,15,Universidad
+1,Centro,16,Sol
+2,Arganzuela,21,Imperial
+2,Arganzuela,22,Acacias
+2,Arganzuela,23,Chopera
+2,Arganzuela,24,Legazpi
+2,Arganzuela,25,Delicias
+2,Arganzuela,26,Palos de la Frontera
+2,Arganzuela,27,Atocha
+3,Retiro,31,Pacífico
+3,Retiro,32,Adelfas
+3,Retiro,33,Estrella
+3,Retiro,34,Ibiza
+3,Retiro,35,Los Jerónimos
+3,Retiro,36,Niño Jesús
+4,Salamanca,41,Recoletos
+4,Salamanca,42,Goya
+4,Salamanca,43,Fuente del Berro
+4,Salamanca,44,Guindalera
+4,Salamanca,45,Lista
+4,Salamanca,46,Castellana
+5,Chamartín,51,El Viso
+5,Chamartín,52,Prosperidad
+5,Chamartín,53,Ciudad Jardín
+5,Chamartín,54,Hispanoamérica
+5,Chamartín,55,Nueva España
+5,Chamartín,56,Castilla
+6,Tetuán,61,Bellas Vistas
+6,Tetuán,62,Cuatro Caminos
+6,Tetuán,63,Castillejos
+6,Tetuán,64,Almenara
+6,Tetuán,65,Valdeacederas
+6,Tetuán,66,Berruguete
+7,Chamberí,71,Gaztambide
+7,Chamberí,72,Arapiles
+7,Chamberí,73,Trafalgar
+7,Chamberí,74,Almagro
+7,Chamberí,75,Ríos Rosas
+7,Chamberí,76,Vallehermoso
+8,Fuencarral - El Pardo,81,El Pardo
+8,Fuencarral - El Pardo,82,Fuentelarreina
+8,Fuencarral - El Pardo,83,Peñagrande
+8,Fuencarral - El Pardo,84,Pilar
+8,Fuencarral - El Pardo,85,La Paz
+8,Fuencarral - El Pardo,86,Valverde
+8,Fuencarral - El Pardo,87,Mirasierra
+8,Fuencarral - El Pardo,88,El Goloso
+9,Moncloa - Aravaca,91,Casa de Campo
+9,Moncloa - Aravaca,92,Argüelles
+9,Moncloa - Aravaca,93,Ciudad Universitaria
+9,Moncloa - Aravaca,94,Valdezarza
+9,Moncloa - Aravaca,95,Valdemarín
+9,Moncloa - Aravaca,96,El Plantío
+9,Moncloa - Aravaca,97,Aravaca
+10,Latina,101,Los Cármenes
+10,Latina,102,Puerta del Ángel
+10,Latina,103,Lucero
+10,Latina,104,Aluche
+10,Latina,105,Campamento
+10,Latina,106,Cuatro Vientos
+10,Latina,107,Águilas
+11,Carabanchel,111,Comillas
+11,Carabanchel,112,Opañel
+11,Carabanchel,113,San Isidro
+11,Carabanchel,114,Vista Alegre
+11,Carabanchel,115,Puerta Bonita
+11,Carabanchel,116,Buenavista
+11,Carabanchel,117,Abrantes
+12,Usera,121,Orcasitas
+12,Usera,122,Orcasur
+12,Usera,123,San Fermín
+12,Usera,124,Almendrales
+12,Usera,125,Moscardó
+12,Usera,126,Zofío
+12,Usera,127,Pradolongo
+13,Puente de Vallecas,131,Entrevías
+13,Puente de Vallecas,132,San Diego
+13,Puente de Vallecas,133,Palomeras Bajas
+13,Puente de Vallecas,134,Palomeras Sureste
+13,Puente de Vallecas,135,Portazgo
+13,Puente de Vallecas,136,Numancia
+14,Moratalaz,141,Pavones
+14,Moratalaz,142,Horcajo
+14,Moratalaz,143,Marroquina
+14,Moratalaz,144,Media Legua
+14,Moratalaz,145,Fontarrón
+14,Moratalaz,146,Vinateros
+15,Ciudad Lineal,151,Ventas
+15,Ciudad Lineal,152,Pueblo Nuevo
+15,Ciudad Lineal,153,Quintana
+15,Ciudad Lineal,154,La Concepción
+15,Ciudad Lineal,155,San Pascual
+15,Ciudad Lineal,156,San Juan Bautista
+15,Ciudad Lineal,157,Colina
+15,Ciudad Lineal,158,Atalaya
+15,Ciudad Lineal,159,Costillares
+16,Hortaleza,161,Palomas
+16,Hortaleza,162,Piovera
+16,Hortaleza,163,Canillas
+16,Hortaleza,164,Pinar del Rey
+16,Hortaleza,165,Apóstol Santiago
+16,Hortaleza,166,Valdefuentes
+17,Villaverde,171,Villaverde Alto - Casco Histórico de Villaverde
+17,Villaverde,172,San Cristóbal
+17,Villaverde,173,Butarque
+17,Villaverde,174,Los Rosales
+17,Villaverde,175,Ángeles
+18,Villa de Vallecas,181,Casco Histórico de Vallecas
+18,Villa de Vallecas,182,Santa Eugenia
+18,Villa de Vallecas,183,Ensanche de Vallecas
+19,Vicálvaro,191,Casco histórico de Vicálvaro
+19,Vicálvaro,192,Valdebernardo
+19,Vicálvaro,193,Valderrivas
+19,Vicálvaro,194,El Cañaveral
+20,San Blas - Canillejas,201,Simancas
+20,San Blas - Canillejas,202,Hellín
+20,San Blas - Canillejas,203,Amposta
+20,San Blas - Canillejas,204,Arcos
+20,San Blas - Canillejas,205,Rosas
+20,San Blas - Canillejas,206,Rejas
+20,San Blas - Canillejas,207,Canillejas
+20,San Blas - Canillejas,208,El Salvador
+21,Barajas,211,Alameda de Osuna
+21,Barajas,212,Aeropuerto
+21,Barajas,213,Casco Histórico de Barajas
+21,Barajas,214,Timón
+21,Barajas,215,Corralejos
